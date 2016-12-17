@@ -1,7 +1,58 @@
 ---
 - hosts: all
   tasks:
-    - name: install vim
-      package: name=vim=2:7.4.052-1ubuntu3.1 state=present
+    - 
+      name: install vim
+      apt: 
+        name=vim=2:7.4.052-1ubuntu3.1
+        state=present
       become: true
-
+    - 
+      name: install git
+      apt:
+        name: git=1:1.9.1-1ubuntu0.3
+        state: present
+      become: true
+              #    -
+#this could use the apt_repository module in ansible
+#  name: install testing repo for YADM
+#      shell: echo "deb http://ftp.debian.org/debian testing main contrib non-free" | tee /etc/apt/sources.list.d/test.list
+#      become: true
+    -
+      name: install testing apt repo for YADM
+      apt_repository:
+        repo: deb http://ftp.debian.org/debian testing main contrib non-free
+        state: present
+    -
+      name: install YADM
+      apt:
+        name: yadm=1.05-1
+        allow_unauthenticated: yes
+        state: present
+      become: true
+              #    - need to figure out how to only run this if it isn't there
+#      name: YADM clone my repo
+#      shell: yadm clone https://www.github.com/austinwiltshire/yadm.git
+    -
+      name: Grab vundle for vim
+      git:
+        repo: https://github.com/VundleVim/Vundle.vim.git
+        dest: /home/vagrant/.vim/bundle/Vundle.vim
+    -
+      name: Pull in all vim plugins
+      shell: vim +PluginInstall +qall
+    - 
+      name: make undo directory for vim
+      file:
+         path: /home/vagrant/.vim/undo
+         state: directory
+    - 
+      name: make backup directory for vim
+      file:
+         path: /home/vagrant/.vim/backup
+         state: directory
+    - 
+      name: make swap directory for vim
+      file:
+         path: /home/vagrant/.vim/swap
+         state: directory
