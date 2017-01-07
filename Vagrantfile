@@ -15,6 +15,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-14.04"
   config.vm.box_version = "2.2.9"
 
+  config.ssh.forward_agent = true
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.

@@ -13,26 +13,42 @@
         name: git=1:1.9.1-1ubuntu0.3
         state: present
       become: true
-              #    -
-#this could use the apt_repository module in ansible
-#  name: install testing repo for YADM
-#      shell: echo "deb http://ftp.debian.org/debian testing main contrib non-free" | tee /etc/apt/sources.list.d/test.list
-#      become: true
     -
-      name: install testing apt repo for YADM
-      apt_repository:
-        repo: deb http://ftp.debian.org/debian testing main contrib non-free
-        state: present
-    -
-      name: install YADM
-      apt:
-        name: yadm=1.05-1
-        allow_unauthenticated: yes
-        state: present
+      name: install curl
+      apt: 
+        name=curl=7.35.0-1ubuntu2.10
+        state=present
       become: true
-              #    - need to figure out how to only run this if it isn't there
+    -
+       name: install YADM without messing with the apt repositories
+       get_url:
+         url: https://github.com/TheLocehiliosan/yadm/raw/master/yadm
+         dest: /usr/local/bin/yadm
+         mode: a+x
+       become: true
+#deprecated below
+#      name: install YADM without messing with the apt repositories
+#      shell: curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x /usr/local/bin/yadm
+#      become: true
+#    -
+#      name: install testing apt repo for YADM
+#      apt_repository:
+#        repo: deb http://ftp.debian.org/debian testing main contrib non-free
+#        state: present
+#      become: true
+#    -
+#      name: install YADM
+#      apt:
+#        name: yadm=1.05-1
+#        allow_unauthenticated: yes
+#        state: present
+#      become: true
+#    - 
+#end deprecation
+#need to figure out how to only run this if it isn't there
 #      name: YADM clone my repo
 #      shell: yadm clone https://www.github.com/austinwiltshire/yadm.git
+#Get vim just right
     -
       name: Grab vundle for vim
       git:
@@ -56,3 +72,61 @@
       file:
          path: /home/vagrant/.vim/swap
          state: directory
+#For docker
+    -
+#be nice to get a single version for this
+      name: Grab apt transport https, needed for docker
+      apt: 
+        name=apt-transport-https
+      become: true
+    -
+#be nice to get a single version for this
+      name: Grab ca-certificats, needed for docker
+      apt: 
+        name=ca-certificates
+      become: true
+    -
+      name: get apt-keys for docker apt stuff
+      apt_key:
+        keyserver: hkp://ha.pool.sks-keyservers.net:80
+        id: 58118E89F3A912897C070ADBF76221572C52609D
+      become: true
+    -
+#this has to line up with the version of ubuntu we're on - 14.04 is trusty
+      name: install repo for docker
+      apt_repository:
+        repo: deb https://apt.dockerproject.org/repo ubuntu-trusty main
+        state: present
+      become: true
+    -
+#in the below, the 3.13.0-92-generic was the result of running uname -r on
+#the image. This could be automated
+      name: gather linux extra dependencies
+      apt:
+        name=linux-image-extra-3.13.0-92-generic
+      become: true
+    -
+      name: gather linux extra virtual dependencies
+      apt:
+        name=linux-image-extra-virtual
+      become: true
+    -
+#be nice to get a version locked down here.
+      name: install docker itself!
+      apt:
+        name=docker-engine
+      become: true
+    -
+      name: start the docker service
+      service:
+        name: docker
+        enabled: yes
+        state: started
+#docker compose
+    -
+       name: install docker compose
+       get_url:
+         url: "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-Linux-x86_64"
+         dest: /usr/local/bin/docker-compose
+         mode: a+x
+       become: true
