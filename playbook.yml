@@ -26,25 +26,7 @@
          dest: /usr/local/bin/yadm
          mode: a+x
        become: true
-#deprecated below
-#      name: install YADM without messing with the apt repositories
-#      shell: curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x /usr/local/bin/yadm
-#      become: true
-#    -
-#      name: install testing apt repo for YADM
-#      apt_repository:
-#        repo: deb http://ftp.debian.org/debian testing main contrib non-free
-#        state: present
-#      become: true
-#    -
-#      name: install YADM
-#      apt:
-#        name: yadm=1.05-1
-#        allow_unauthenticated: yes
-#        state: present
-#      become: true
-#    - 
-#end deprecation
+               #    - 
 #need to figure out how to only run this if it isn't there
 #      name: YADM clone my repo
 #      shell: yadm clone https://www.github.com/austinwiltshire/yadm.git
@@ -129,4 +111,10 @@
          url: "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-Linux-x86_64"
          dest: /usr/local/bin/docker-compose
          mode: a+x
+       become: true
+#tmux
+    -
+       name: install tmux
+       apt:
+         name=tmux=1.8-5
        become: true
