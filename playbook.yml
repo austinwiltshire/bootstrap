@@ -10,7 +10,7 @@
     - 
       name: install git
       apt:
-        name: git=1:1.9.1-1ubuntu0.3
+        name: git=1:1.9.1-1ubuntu0.5
         state: present
       become: true
     -
@@ -26,10 +26,31 @@
          dest: /usr/local/bin/yadm
          mode: a+x
        become: true
-               #    - 
-#need to figure out how to only run this if it isn't there
-#      name: YADM clone my repo
-#      shell: yadm clone https://www.github.com/austinwiltshire/yadm.git
+    -
+       name: install zsh
+       apt:
+         name=zsh
+       become: true
+    - 
+       name: set zsh as default shell to vagrant
+       user:
+         name: vagrant
+         shell: /bin/zsh
+       become: true
+    -
+       name: install oh-my-zsh
+       git:
+         repo: 'https://github.com/robbyrussell/oh-my-zsh.git'
+         depth: 1
+         dest: /home/vagrant/.oh-my-zsh
+    -
+      name: figure out whether yadm is already installed
+      stat: path=/home/vagrant/.yadm/repo.git
+      register: yadm_exists
+    -
+      name: YADM clone my repo
+      shell: yadm clone https://www.github.com/austinwiltshire/yadm.git
+      when: yadm_exists.stat.exists == False
 #Get vim just right
     -
       name: Grab vundle for vim
@@ -117,4 +138,24 @@
        name: install tmux
        apt:
          name=tmux=1.8-5
+       become: true
+    -
+       name: install xfce4
+       apt:
+         name=xfce4
+       become: true
+    -
+       name: install xfce4 extras
+       apt:
+         name=xfce4-goodies
+       become: true
+    -
+       name: install xfce4 icons 1
+       apt:
+         name=gnome-icon-theme
+       become: true
+    -
+       name: install xfce4 icons 2
+       apt:
+         name=tango-icon-theme
        become: true

@@ -1,6 +1,18 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+required_plugins = %w(vagrant-vbguest)
+
+plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
+if not plugins_to_install.empty?
+  puts "Installing plugins: #{plugins_to_install.join(' ')}"
+  if system "vagrant plugin install #{plugins_to_install.join(' ')}"
+    exec "vagrant #{ARGV.join(' ')}"
+  else
+    abort "Installation of one or more plugins has failed. Aborting."
+  end
+end
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -49,8 +61,10 @@ Vagrant.configure("2") do |config|
     vb.gui = true
   
     # Customize the amount of memory on the VM:
-    vb.memory = "28672"
-    vb.cpus = "6"
+    #    vb.memory = "24000" #use this amount when developing on this box
+    #    vb.cpus = "6" #same here
+    vb.memory = "4096" #use this amount when just doing lightweight stuff
+    vb.cpus = "1" #same here
   end
   #
   # View the documentation for the provider you are using for more
@@ -62,8 +76,14 @@ Vagrant.configure("2") do |config|
   # config.push.define "atlas" do |push|
   #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
   # end
+  
+#  config.vm.provision "shell", inline: "sudo apt-get install -y xfce4"
+#  config.vm.provision "shell", inline: "sudo /usr/share/debconf/fix_db.pl"
+#  config.vm.provision "shell", inline: "sudo apt-get update"
 
   config.vm.provision :ansible_local do |ansible|
     ansible.playbook = "playbook.yml"
   end
+
+
 end
