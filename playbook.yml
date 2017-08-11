@@ -159,3 +159,38 @@
        apt:
          name=tango-icon-theme
        become: true
+    -
+       name: clone universal ctags
+       git:
+         repo: 'https://github.com/universal-ctags/ctags.git'
+         depth: 1
+         dest: /tmp/ctags
+    -
+       name: install autoreconf, needed for ctags
+       apt:
+         name=autoconf
+       become: true
+    -
+       name: install pkg-config, needed for ctags
+       apt:
+         name=pkg-config
+       become: true
+    -
+       name: prep building universal ctags
+       shell: ./autogen.sh
+       args:
+         chdir: /tmp/ctags
+         creates: /tmp/ctags/configure
+    -
+       name: configure universal ctags
+       shell: ./configure
+       args:
+         chdir: /tmp/ctags
+         creates: /tmp/ctags/Makefile
+    -
+       name: install universal ctags
+       shell: make install
+       args:
+         chdir: /tmp/ctags
+         creates: /usr/local/bin/ctags
+       become: true
