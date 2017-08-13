@@ -194,3 +194,20 @@
          chdir: /tmp/ctags
          creates: /usr/local/bin/ctags
        become: true
+    -
+    #NOTE: you may also have to install these on your host machine if
+    #using vagrant. For a windows host, that means going through each
+    #folder in windows explorer, selecting the fonts and right clicking
+    #to install
+    #you can also search it in the search bar to the right to select
+    #all otf and ttf files, and install that way.
+       name: clone powerline fonts
+       git:
+         repo: 'https://github.com/powerline/fonts.git'
+         depth: 1
+         dest: /tmp/powerline-fonts
+    -
+       name: install fonts
+       shell: ./install.sh
+       args:
+         chdir: /tmp/powerline-fonts
