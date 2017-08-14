@@ -211,3 +211,74 @@
        shell: ./install.sh
        args:
          chdir: /tmp/powerline-fonts
+    - 
+       name: install pre-reqs for lpass cli openssl
+       apt: name=openssl state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli libcurl4
+       apt: name=libcurl4-openssl-dev state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli libxml2
+       apt: name=libxml2 state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli libssl-dev
+       apt: name=libssl-dev state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli libxml2-dev
+       apt: name=libxml2-dev state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli pinentry
+       apt: name=pinentry-curses state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli xclip
+       apt: name=xclip state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli cmake
+       apt: name=cmake state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli build-essential
+       apt: name=build-essential state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli pkg-config
+       apt: name=pkg-config state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli asciidoc
+       apt: name=asciidoc state=present
+       become: true
+    - 
+       name: install pre-reqs for lpass cli xsltproc
+       apt: name=xsltproc state=present
+       become: true
+    -
+       name: clone lastpass itself
+       git:
+         repo: 'https://github.com/lastpass/lastpass-cli'
+         depth: 1
+         dest: /tmp/lastpass-cli
+    -
+       name: build lastpass
+       shell: make
+       args:
+         chdir: /tmp/lastpass-cli
+    -
+       name: install lastpass
+       shell: make install
+       args:
+         chdir: /tmp/lastpass-cli
+       become: true
+    -
+       name: install lastpass docs
+       shell: make install-doc
+       args:
+         chdir: /tmp/lastpass-cli
+       become: true
