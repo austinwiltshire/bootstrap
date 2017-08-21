@@ -4,7 +4,8 @@
     - 
       name: install vim
       apt: 
-        name=vim=2:7.4.052-1ubuntu3.1
+        #name=vim=2:7.4.052-1ubuntu3.1
+        name=vim-gnome
         state=present
       become: true
     - 
@@ -281,4 +282,30 @@
        shell: make install-doc
        args:
          chdir: /tmp/lastpass-cli
+       become: true
+    -
+       name: grab miniconda
+       shell: wget http://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh -O ~/miniconda.sh
+       args:
+         creates: ~/miniconda.sh
+       become: true
+       become_user: vagrant
+    -
+       name: install miniconda
+       shell: bash ~/miniconda.sh -b -p ~/miniconda
+       args:
+         creates: ~/miniconda/bin
+       become: true
+       become_user: vagrant
+
+    -
+       name: install ipython
+       shell: ~/miniconda/bin/conda install ipython #full path because ansible doesn't run .zshrc
+       args:
+         creates: ~/miniconda/bin/ipython
+       become: true
+       become_user: vagrant
+    -
+       name: install git-flow
+       apt: name=git-flow state=present
        become: true
