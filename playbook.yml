@@ -9,9 +9,15 @@
         state=present
       become: true
     - 
+      name: install silver searcher
+      apt:
+        name=silversearcher-ag
+        state=present
+      become: true
+    -
       name: install git
       apt:
-        name: git=1:1.9.1-1ubuntu0.5
+        name: git
         state: present
       become: true
     -
