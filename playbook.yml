@@ -2,11 +2,158 @@
 - hosts: all
   tasks:
     - 
-      name: install vim
+      name: install dependencies for vim
       apt: 
-        #name=vim=2:7.4.052-1ubuntu3.1
-        name=vim-gnome
+        name=libncurses5-dev
         state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=libgnome2-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=libgnomeui-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=libgtk2.0-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=libatk1.0-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=libbonoboui2-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=libcairo2-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=libx11-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=libxpm-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=libxt-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=python-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=python3-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=ruby-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=lua5.1
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=liblua5.1-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=libperl-dev
+        state=present
+      become: true
+    - 
+      name: install dependencies for vim
+      apt: 
+        name=git
+        state=present
+      become: true
+    -
+      name: grab vim source
+      git:
+        repo: 'https://github.com/vim/vim.git'
+        depth: 1
+        dest: /home/vagrant/vim
+    -
+      name: configure vim
+      #NOTE: trying both python's here. this may interfere with
+      #youcomplete me. To  fix, just turn python3 off.
+      #https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
+      shell: ./configure --with-features=huge \
+            --enable-multibyte \
+            --enable-rubyinterp=yes \
+            --enable-pythoninterp=yes \
+            --with-python-config-dir=/usr/lib/python2.7/config \
+            --enable-python3interp=yes \
+            --with-python3-config-dir=/usr/lib/python3.4/config \
+            --enable-perlinterp=yes \
+            --enable-luainterp=yes \
+            --enable-gui=gtk2 \
+            --enable-cscope \
+            --prefix=/usr/local
+      args:
+        chdir: /home/vagrant/vim
+    -
+      name: build vim
+      shell: make
+      args:
+        chdir: /home/vagrant/vim
+    -
+      name: install vim
+      shell: make install
+      args:
+        chdir: /home/vagrant/vim
+      become: true
+    -
+      name: set up vim edit defaults
+      shell: update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
+      become: true
+    -
+      name: set up vim edit defaults
+      shell: update-alternatives --set editor /usr/local/bin/vim
+      become: true
+    -
+      name: set up vim edit defaults
+      shell: update-alternatives --install /usr/local/bin/vi vi /usr/local/bin/vim 1
+      become: true
+    -
+      name: set up vim edit defaults
+      shell: update-alternatives --set vi /usr/local/bin/vim
       become: true
     - 
       name: install silver searcher
