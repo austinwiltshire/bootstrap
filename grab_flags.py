@@ -4,6 +4,8 @@ format. Useful for CMAKE projects that you want to get syntastic working on."""
 
 import json
 import re
+import shutil
+import os
 
 IS_IMPORTANT_FLAG = re.compile('std|^-isystem|^-I')
 
@@ -40,3 +42,11 @@ for neomake_flag in IMPORTANT_FLAGS:
     )
 NEOMAKE_FILE.close()
 
+#YCM setup
+#copy the base file into the current directory
+shutil.copy(os.path.expanduser("~") + "/.vim/.ycm_extra_conf.py", ".")
+
+#grab the likely compile database location. user can edit this in the json file
+#or we can make this smarter to search for the compile-commands database ourselves
+ycm_conf = {'compile_commands_database' : os.path.abspath(".") + "/build"}
+json.dump(ycm_conf, open("ycm_conf.json", "w"))
