@@ -215,6 +215,11 @@
       name: Pull in all vim plugins
       shell: vim +PluginInstall +qall
     - 
+      name: Install youcomplete me with clang completion
+      shell:  python2.7 ./install.py --clang-completer
+      args:
+         chdir: ~/.vim/bundle/YouCompleteMe
+    -
       name: make undo directory for vim
       file:
          path: /home/vagrant/.vim/undo
