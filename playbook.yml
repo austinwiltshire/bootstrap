@@ -1,7 +1,22 @@
 ---
 - hosts: all
   tasks:
+    -
+      name: install tmux plugin manager
+      git:
+        repo: 'https://github.com/tmux-plugins/tpm'
+        depth: 1
+        dest: /home/vagrant/.tmux/plugins/tpm
     - 
+      name: install pip for python 2.7
+      apt:
+        name=python-pip
+        state=present
+      become: true
+    - 
+      name: install powerline-status
+      shell: /usr/bin/pip install --user powerline-status
+    -
       name: install dependencies for vim
       apt: 
         name=libncurses5-dev
