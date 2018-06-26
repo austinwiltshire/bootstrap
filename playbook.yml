@@ -2,6 +2,12 @@
 - hosts: all
   tasks:
     -
+      name: install git
+      apt:
+        name=git
+        state=present
+      become: true
+    -
       name: install tmux plugin manager
       git:
         repo: 'https://github.com/tmux-plugins/tpm'
@@ -17,160 +23,8 @@
       name: install powerline-status
       shell: /usr/bin/pip install --user powerline-status
     -
-      name: install dependencies for vim
-      apt: 
-        name=libncurses5-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=libgnome2-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=libgnomeui-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=libgtk2.0-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=libatk1.0-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=libbonoboui2-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=libcairo2-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=libx11-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=libxpm-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=libxt-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=python-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=python3-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=ruby-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=lua5.1
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=liblua5.1-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=libperl-dev
-        state=present
-      become: true
-    - 
-      name: install dependencies for vim
-      apt: 
-        name=git
-        state=present
-      become: true
+      import_tasks: vim.yml
     -
-      name: grab vim source
-      git:
-        repo: 'https://github.com/vim/vim.git'
-        depth: 1
-        dest: /home/vagrant/vim
-    -
-      name: configure vim
-      #NOTE: trying both python's here. this may interfere with
-      #youcomplete me. To  fix, just turn python3 off.
-      #https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
-      shell: ./configure --with-features=huge \
-            --enable-multibyte \
-            --enable-rubyinterp=yes \
-            --enable-pythoninterp=yes \
-            --with-python-config-dir=/usr/lib/python2.7/config \
-            --enable-python3interp=yes \
-            --with-python3-config-dir=/usr/lib/python3.4/config \
-            --enable-perlinterp=yes \
-            --enable-luainterp=yes \
-            --enable-gui=gtk2 \
-            --enable-cscope \
-            --prefix=/usr/local
-      args:
-        chdir: /home/vagrant/vim
-    -
-      name: build vim
-      shell: make
-      args:
-        chdir: /home/vagrant/vim
-    -
-      name: install vim
-      shell: make install
-      args:
-        chdir: /home/vagrant/vim
-      become: true
-    -
-      name: set up vim edit defaults
-      shell: update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
-      become: true
-    -
-      name: set up vim edit defaults
-      shell: update-alternatives --set editor /usr/local/bin/vim
-      become: true
-    -
-      name: set up vim edit defaults
-      shell: update-alternatives --install /usr/local/bin/vi vi /usr/local/bin/vim 1
-      become: true
-    -
-      name: set up vim edit defaults
-      shell: update-alternatives --set vi /usr/local/bin/vim
-      become: true
-    - 
       name: install silver searcher
       apt:
         name=silversearcher-ag
@@ -185,7 +39,7 @@
     -
       name: install curl
       apt: 
-        name=curl=7.35.0-1ubuntu2.10
+        name=curl
         state=present
       become: true
     -
@@ -230,13 +84,13 @@
       name: Pull in all vim plugins
       shell: vim +PluginInstall +qall
     - 
-      name: Install cmake (needed by youcompleteme)
+      name: Install cmake (needed by youcompleteme) and last pass (cmake3 for old ubuntus. switch to just cmake for new ubuntus)
       apt:
-        name=cmake
+        name=cmake3
       become: true
     -
       name: Install youcomplete me with clang completion
-      shell:  python2.7 ./install.py --clang-completer
+      shell:  python3.4 ./install.py --clang-completer
       args:
          chdir: ~/.vim/bundle/YouCompleteMe
     -
@@ -314,29 +168,26 @@
        become: true
 #tmux
     -
+#this has to line up with the version of ubuntu we're on - 14.04 is trusty
+      name: install repo for tmux
+      apt_repository:
+        repo: ppa:pi-rho/dev
+        state: present
+      become: true
+    -
        name: install tmux
        apt:
-         name=tmux=1.8-5
+         name=tmux=2.0-1~ppa1~t
        become: true
     -
-       name: install xfce4
+       name: install gnome shell
        apt:
-         name=xfce4
+         name=gnome-shell
        become: true
     -
-       name: install xfce4 extras
+       name: install ubuntu gnome desktop
        apt:
-         name=xfce4-goodies
-       become: true
-    -
-       name: install xfce4 icons 1
-       apt:
-         name=gnome-icon-theme
-       become: true
-    -
-       name: install xfce4 icons 2
-       apt:
-         name=tango-icon-theme
+         name=ubuntu-gnome-desktop
        become: true
     -
        name: clone universal ctags
@@ -419,10 +270,6 @@
        apt: name=xclip state=present
        become: true
     - 
-       name: install pre-reqs for lpass cli cmake
-       apt: name=cmake state=present
-       become: true
-    - 
        name: install pre-reqs for lpass cli build-essential
        apt: name=build-essential state=present
        become: true
@@ -487,3 +334,12 @@
        name: install git-flow
        apt: name=git-flow state=present
        become: true
+    -
+       name: install pylint
+       apt: name=pylint state=present
+       become: true
+    -
+       name: install cppcheck
+       apt: name=cppcheck state=present
+       become: true
+
