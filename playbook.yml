@@ -2,28 +2,15 @@
 - hosts: all
   tasks:
     -
-      name: install git
+      name: install curl
       apt:
-        name=git
+        name=curl
         state=present
       become: true
     -
-      name: install tmux plugin manager
-      git:
-        repo: 'https://github.com/tmux-plugins/tpm'
-        depth: 1
-        dest: /home/vagrant/.tmux/plugins/tpm
-    - 
-      name: install pip for python 2.7
-      apt:
-        name=python-pip
-        state=present
-      become: true
-    - 
-      name: install powerline-status
-      shell: /usr/bin/pip install --user powerline-status
+      import_tasks: roles/git.yml
     -
-      import_tasks: vim.yml
+      import_tasks: roles/zsh.yml
     -
       name: install silver searcher
       apt:
@@ -31,315 +18,38 @@
         state=present
       become: true
     -
-      name: install git
+      name: install pip for python 2.7
       apt:
-        name: git
-        state: present
-      become: true
-    -
-      name: install curl
-      apt: 
-        name=curl
+        name=python-pip
         state=present
       become: true
     -
-       name: install YADM without messing with the apt repositories
-       get_url:
-         url: https://github.com/TheLocehiliosan/yadm/raw/master/yadm
-         dest: /usr/local/bin/yadm
-         mode: a+x
-       become: true
+      import_tasks: roles/tmux.yml
     -
-       name: install zsh
-       apt:
-         name=zsh
-       become: true
-    - 
-       name: set zsh as default shell to vagrant
-       user:
-         name: vagrant
-         shell: /bin/zsh
-       become: true
+      import_tasks: roles/vim.yml
     -
-       name: install oh-my-zsh
-       git:
-         repo: 'https://github.com/robbyrussell/oh-my-zsh.git'
-         depth: 1
-         dest: /home/vagrant/.oh-my-zsh
+      import_tasks: roles/yadm.yml
     -
-      name: figure out whether yadm is already installed
-      stat: path=/home/vagrant/.yadm/repo.git
-      register: yadm_exists
+      import_tasks: roles/vim_plugins.yml
     -
-      name: YADM clone my repo
-      shell: yadm clone https://www.github.com/austinwiltshire/yadm.git
-      when: yadm_exists.stat.exists == False
-#Get vim just right
+      import_tasks: roles/docker.yml
     -
-      name: Grab vundle for vim
-      git:
-        repo: https://github.com/VundleVim/Vundle.vim.git
-        dest: /home/vagrant/.vim/bundle/Vundle.vim
+      import_tasks: roles/gnome.yml
     -
-      name: Pull in all vim plugins
-      shell: vim +PluginInstall +qall
-    - 
-      name: Install cmake (needed by youcompleteme) and last pass (cmake3 for old ubuntus. switch to just cmake for new ubuntus)
-      apt:
-        name=cmake3
-      become: true
+      import_tasks: roles/ctags.yml
     -
-      name: Install youcomplete me with clang completion
-      shell:  python3.4 ./install.py --clang-completer
-      args:
-         chdir: ~/.vim/bundle/YouCompleteMe
+      import_tasks: roles/powerline.yml
     -
-      name: make undo directory for vim
-      file:
-         path: /home/vagrant/.vim/undo
-         state: directory
-    - 
-      name: make backup directory for vim
-      file:
-         path: /home/vagrant/.vim/backup
-         state: directory
-    - 
-      name: make swap directory for vim
-      file:
-         path: /home/vagrant/.vim/swap
-         state: directory
-#For docker
+      import_tasks: roles/lastpass-cli.yml
     -
-#be nice to get a single version for this
-      name: Grab apt transport https, needed for docker
-      apt: 
-        name=apt-transport-https
-      become: true
-    -
-#be nice to get a single version for this
-      name: Grab ca-certificats, needed for docker
-      apt: 
-        name=ca-certificates
-      become: true
-    -
-      name: get apt-keys for docker apt stuff
-      apt_key:
-        keyserver: hkp://ha.pool.sks-keyservers.net:80
-        id: 58118E89F3A912897C070ADBF76221572C52609D
-      become: true
-    -
-#this has to line up with the version of ubuntu we're on - 14.04 is trusty
-      name: install repo for docker
-      apt_repository:
-        repo: deb https://apt.dockerproject.org/repo ubuntu-trusty main
-        state: present
-      become: true
-    -
-#in the below, the 3.13.0-92-generic was the result of running uname -r on
-#the image. This could be automated
-      name: gather linux extra dependencies
-      apt:
-        name=linux-image-extra-3.13.0-92-generic
-      become: true
-    -
-      name: gather linux extra virtual dependencies
-      apt:
-        name=linux-image-extra-virtual
-      become: true
-    -
-#be nice to get a version locked down here.
-      name: install docker itself!
-      apt:
-        name=docker-engine
-      become: true
-    -
-      name: start the docker service
-      service:
-        name: docker
-        enabled: yes
-        state: started
-#docker compose
-    -
-       name: install docker compose
-       get_url:
-         url: "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-Linux-x86_64"
-         dest: /usr/local/bin/docker-compose
-         mode: a+x
-       become: true
-#tmux
-    -
-#this has to line up with the version of ubuntu we're on - 14.04 is trusty
-      name: install repo for tmux
-      apt_repository:
-        repo: ppa:pi-rho/dev
-        state: present
-      become: true
-    -
-       name: install tmux
-       apt:
-         name=tmux=2.0-1~ppa1~t
-       become: true
-    -
-       name: install gnome shell
-       apt:
-         name=gnome-shell
-       become: true
-    -
-       name: install ubuntu gnome desktop
-       apt:
-         name=ubuntu-gnome-desktop
-       become: true
-    -
-       name: clone universal ctags
-       git:
-         repo: 'https://github.com/universal-ctags/ctags.git'
-         depth: 1
-         dest: /tmp/ctags
-    -
-       name: install autoreconf, needed for ctags
-       apt:
-         name=autoconf
-       become: true
-    -
-       name: install pkg-config, needed for ctags
-       apt:
-         name=pkg-config
-       become: true
-    -
-       name: prep building universal ctags
-       shell: ./autogen.sh
-       args:
-         chdir: /tmp/ctags
-         creates: /tmp/ctags/configure
-    -
-       name: configure universal ctags
-       shell: ./configure
-       args:
-         chdir: /tmp/ctags
-         creates: /tmp/ctags/Makefile
-    -
-       name: install universal ctags
-       shell: make install
-       args:
-         chdir: /tmp/ctags
-         creates: /usr/local/bin/ctags
-       become: true
-    -
-    #NOTE: you may also have to install these on your host machine if
-    #using vagrant. For a windows host, that means going through each
-    #folder in windows explorer, selecting the fonts and right clicking
-    #to install
-    #you can also search it in the search bar to the right to select
-    #all otf and ttf files, and install that way.
-       name: clone powerline fonts
-       git:
-         repo: 'https://github.com/powerline/fonts.git'
-         depth: 1
-         dest: /tmp/powerline-fonts
-    -
-       name: install fonts
-       shell: ./install.sh
-       args:
-         chdir: /tmp/powerline-fonts
-    - 
-       name: install pre-reqs for lpass cli openssl
-       apt: name=openssl state=present
-       become: true
-    - 
-       name: install pre-reqs for lpass cli libcurl4
-       apt: name=libcurl4-openssl-dev state=present
-       become: true
-    - 
-       name: install pre-reqs for lpass cli libxml2
-       apt: name=libxml2 state=present
-       become: true
-    - 
-       name: install pre-reqs for lpass cli libssl-dev
-       apt: name=libssl-dev state=present
-       become: true
-    - 
-       name: install pre-reqs for lpass cli libxml2-dev
-       apt: name=libxml2-dev state=present
-       become: true
-    - 
-       name: install pre-reqs for lpass cli pinentry
-       apt: name=pinentry-curses state=present
-       become: true
-    - 
-       name: install pre-reqs for lpass cli xclip
-       apt: name=xclip state=present
-       become: true
-    - 
-       name: install pre-reqs for lpass cli build-essential
-       apt: name=build-essential state=present
-       become: true
-    - 
-       name: install pre-reqs for lpass cli pkg-config
-       apt: name=pkg-config state=present
-       become: true
-    - 
-       name: install pre-reqs for lpass cli asciidoc
-       apt: name=asciidoc state=present
-       become: true
-    - 
-       name: install pre-reqs for lpass cli xsltproc
-       apt: name=xsltproc state=present
-       become: true
-    -
-       name: clone lastpass itself
-       git:
-         repo: 'https://github.com/lastpass/lastpass-cli'
-         depth: 1
-         dest: /tmp/lastpass-cli
-    -
-       name: build lastpass
-       shell: make
-       args:
-         chdir: /tmp/lastpass-cli
-    -
-       name: install lastpass
-       shell: make install
-       args:
-         chdir: /tmp/lastpass-cli
-       become: true
-    -
-       name: install lastpass docs
-       shell: make install-doc
-       args:
-         chdir: /tmp/lastpass-cli
-       become: true
-    -
-       name: grab miniconda
-       shell: wget http://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh -O ~/miniconda.sh
-       args:
-         creates: ~/miniconda.sh
-       become: true
-       become_user: vagrant
-    -
-       name: install miniconda
-       shell: bash ~/miniconda.sh -b -p ~/miniconda
-       args:
-         creates: ~/miniconda/bin
-       become: true
-       become_user: vagrant
-
-    -
-       name: install ipython
-       shell: ~/miniconda/bin/conda install ipython #full path because ansible doesn't run .zshrc
-       args:
-         creates: ~/miniconda/bin/ipython
-       become: true
-       become_user: vagrant
-    -
-       name: install git-flow
-       apt: name=git-flow state=present
-       become: true
-    -
-       name: install pylint
-       apt: name=pylint state=present
-       become: true
+      import_tasks: roles/python.yml
     -
        name: install cppcheck
        apt: name=cppcheck state=present
        become: true
-
+    -
+      import_tasks: roles/ide.yml
+    -
+       name: install ansible-lint
+       command: /usr/bin/pip install ansible-lint
+       become: true

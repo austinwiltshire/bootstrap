@@ -1,0 +1,16 @@
+---
+    -
+       name: install YADM without messing with the apt repositories
+       get_url:
+         url: https://github.com/TheLocehiliosan/yadm/raw/master/yadm
+         dest: /usr/local/bin/yadm
+         mode: a+x
+       become: true
+    -
+      name: figure out whether yadm is already installed
+      stat: path=/home/vagrant/.yadm/repo.git
+      register: yadm_exists
+    -
+      name: YADM clone my repo
+      command: yadm clone https://www.github.com/austinwiltshire/yadm.git
+      when: yadm_exists.stat.exists == False

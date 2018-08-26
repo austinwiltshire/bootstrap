@@ -1,103 +1,103 @@
 ---
     -
-      name: install dependencies for vim
-      apt: 
+      name: install libncruses5-dev for vim
+      apt:
         name=libncurses5-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install libegnome2-dev for vim
+      apt:
         name=libgnome2-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install libgnomeui-dev for vim
+      apt:
         name=libgnomeui-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install libgtk2.0-dev for vim
+      apt:
         name=libgtk2.0-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install libatk1.0-dev for vim
+      apt:
         name=libatk1.0-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install libbonoboui2-dev for vim
+      apt:
         name=libbonoboui2-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install libcairo2-dev for vim
+      apt:
         name=libcairo2-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install libx11-dev for vim
+      apt:
         name=libx11-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install libxpm-dev for vim
+      apt:
         name=libxpm-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install libxt-dev for vim
+      apt:
         name=libxt-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install python-dev for vim
+      apt:
         name=python-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install python3-dev for vim
+      apt:
         name=python3-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install ruby-dev for vim
+      apt:
         name=ruby-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install lua5.1 for vim
+      apt:
         name=lua5.1
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install liblua5.1-dev for vim
+      apt:
         name=liblua5.1-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install libperl-dev for vim
+      apt:
         name=libperl-dev
         state=present
       become: true
-    - 
-      name: install dependencies for vim
-      apt: 
+    -
+      name: install git for vim
+      apt:
         name=git
         state=present
       become: true
@@ -107,47 +107,48 @@
         repo: 'https://github.com/vim/vim.git'
         depth: 1
         dest: /home/vagrant/vim
+        version: master
     -
       name: configure vim
       #NOTE: trying both python's here. this may interfere with
       #youcomplete me. To  fix, just turn python3 off.
       #https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
-      shell: ./configure --with-features=huge \
-            --enable-multibyte \
-            --enable-rubyinterp=yes \
-            --enable-python3interp=yes \
-            --with-python3-config-dir=/usr/lib/python3.4/config \
-            --enable-perlinterp=yes \
-            --enable-luainterp=yes \
-            --enable-gui=gtk2 \
-            --enable-cscope \
+      command: ./configure --with-features=huge\
+            --enable-multibyte\
+            --enable-rubyinterp=yes\
+            --enable-python3interp=yes\
+            --with-python3-config-dir=/usr/lib/python3.4/config\
+            --enable-perlinterp=yes\
+            --enable-luainterp=yes\
+            --enable-gui=gtk2\
+            --enable-cscope\
             --prefix=/usr/local
       args:
         chdir: /home/vagrant/vim
     -
       name: build vim
-      shell: make
+      command: make
       args:
         chdir: /home/vagrant/vim
     -
       name: install vim
-      shell: make install
+      command: make install
       args:
         chdir: /home/vagrant/vim
       become: true
     -
       name: set up vim edit defaults
-      shell: update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
+      command: update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
       become: true
     -
       name: set up vim edit defaults
-      shell: update-alternatives --set editor /usr/local/bin/vim
+      command: update-alternatives --set editor /usr/local/bin/vim
       become: true
     -
       name: set up vim edit defaults
-      shell: update-alternatives --install /usr/local/bin/vi vi /usr/local/bin/vim 1
+      command: update-alternatives --install /usr/local/bin/vi vi /usr/local/bin/vim 1
       become: true
     -
       name: set up vim edit defaults
-      shell: update-alternatives --set vi /usr/local/bin/vim
+      command: update-alternatives --set vi /usr/local/bin/vim
       become: true

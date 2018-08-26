@@ -1,0 +1,11 @@
+---
+    -
+      name: install git
+      apt:
+        name=git
+        state=present
+      become: true
+    -
+       name: install git-flow
+       apt: name=git-flow state=present
+       become: true

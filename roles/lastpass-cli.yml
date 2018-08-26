@@ -1,0 +1,70 @@
+---
+    -
+       name: install pre-reqs for lpass cli openssl
+       apt: name=openssl state=present
+       become: true
+    -
+       name: install pre-reqs for lpass cli libcurl4
+       apt: name=libcurl4-openssl-dev state=present
+       become: true
+    -
+       name: install pre-reqs for lpass cli libxml2
+       apt: name=libxml2 state=present
+       become: true
+    -
+       name: install pre-reqs for lpass cli libssl-dev
+       apt: name=libssl-dev state=present
+       become: true
+    -
+       name: install pre-reqs for lpass cli libxml2-dev
+       apt: name=libxml2-dev state=present
+       become: true
+    -
+       name: install pre-reqs for lpass cli pinentry
+       apt: name=pinentry-curses state=present
+       become: true
+    -
+       name: install pre-reqs for lpass cli xclip
+       apt: name=xclip state=present
+       become: true
+    -
+       name: install pre-reqs for lpass cli build-essential
+       apt: name=build-essential state=present
+       become: true
+    -
+       name: install pre-reqs for lpass cli pkg-config
+       apt: name=pkg-config state=present
+       become: true
+       # not needed and takes a gig just to install this. only needed for documentation    -
+      #       name: install pre-reqs for lpass cli asciidoc
+      # apt: name=asciidoc state=present
+      # become: true
+    -
+       name: install pre-reqs for lpass cli xsltproc
+       apt: name=xsltproc state=present
+       become: true
+    -
+       name: clone lastpass itself
+       git:
+         repo: 'https://github.com/lastpass/lastpass-cli'
+         depth: 1
+         dest: /tmp/lastpass-cli
+         version: master
+    -
+       name: build lastpass
+       command: make
+       args:
+         chdir: /tmp/lastpass-cli
+    -
+       name: install lastpass
+       command: make install
+       args:
+         chdir: /tmp/lastpass-cli
+       become: true
+       #- to build these would require a gig of dependencies. yes.
+       # no, i don't know why. asciidoc needs a gig of dependencies.
+    #       name: install lastpass docs
+    #   shell: make install-doc
+    #   args:
+    #     chdir: /tmp/lastpass-cli
+    #   become: true
