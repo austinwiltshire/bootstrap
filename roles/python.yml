@@ -1,9 +1,12 @@
 ---
     -
        name: grab miniconda
-       command: wget http://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh -O ~/miniconda.sh
-       args:
-         creates: ~/miniconda.sh
+       get_url:
+         url: http://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh
+         dest: ~/miniconda.sh
+         #       command: wget http://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh -O ~/miniconda.sh
+         # args:
+           # creates: ~/miniconda.sh
        become: true
        become_user: vagrant
     -

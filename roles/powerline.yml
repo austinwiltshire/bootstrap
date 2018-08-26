@@ -2,6 +2,8 @@
     -
       name: install powerline-status
       command: /usr/bin/pip install --user powerline-status
+      args:
+        creates: /home/vagrant/.local/lib/python2.7/site-packages/powerline_status-2.7.egg-info
     -
     #NOTE: you may also have to install these on your host machine if
     #using vagrant. For a windows host, that means going through each
@@ -20,3 +22,4 @@
        command: ./install.sh
        args:
          chdir: /tmp/powerline-fonts
+         creates: /home/vagrant/.local/share/fonts/Ubuntu Mono derivative Powerline Bold.ttf

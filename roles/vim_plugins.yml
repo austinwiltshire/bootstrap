@@ -9,6 +9,8 @@
     -
       name: Pull in all vim plugins
       command: vim +PluginInstall +qall
+      args:
+        creates: /home/vagrant/.vim/bundle/ack.vim
     -
       name: Install cmake (needed by youcompleteme) and last pass (cmake3 for old ubuntus. switch to just cmake for new ubuntus)
       apt:
@@ -19,6 +21,7 @@
       command:  python3.4 ./install.py --clang-completer
       args:
          chdir: ~/.vim/bundle/YouCompleteMe
+         creates: ~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so
     -
       name: make undo directory for vim
       file:

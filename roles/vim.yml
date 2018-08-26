@@ -125,30 +125,39 @@
             --prefix=/usr/local
       args:
         chdir: /home/vagrant/vim
+        creates: /home/vagrant/vim/src/auto/config.mk
     -
       name: build vim
       command: make
       args:
         chdir: /home/vagrant/vim
+        creates: /home/vagrant/vim/src/vim
     -
       name: install vim
       command: make install
       args:
         chdir: /home/vagrant/vim
+        creates: /usr/local/bin/vim
       become: true
     -
-      name: set up vim edit defaults
-      command: update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
-      become: true
+      name: set up vim editor defaults
+      alternatives:
+        name: editor
+        path: /usr/local/bin/vim
+    #  command: update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
+    #  become: true
+    #-
+    #  name: set up vim edit defaults
+    #  command: update-alternatives --set editor /usr/local/bin/vim
+    #  become: true
     -
       name: set up vim edit defaults
-      command: update-alternatives --set editor /usr/local/bin/vim
-      become: true
-    -
-      name: set up vim edit defaults
-      command: update-alternatives --install /usr/local/bin/vi vi /usr/local/bin/vim 1
-      become: true
-    -
-      name: set up vim edit defaults
-      command: update-alternatives --set vi /usr/local/bin/vim
-      become: true
+      alternatives:
+        name: vi
+        path: /usr/local/bin/vim
+    #  command: update-alternatives --install /usr/local/bin/vi vi /usr/local/bin/vim 1
+    #  become: true
+    #-
+    #  name: set up vim edit defaults
+    #  command: update-alternatives --set vi /usr/local/bin/vim
+    #  become: true

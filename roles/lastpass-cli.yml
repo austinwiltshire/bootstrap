@@ -55,11 +55,13 @@
        command: make
        args:
          chdir: /tmp/lastpass-cli
+         creates: /tmp/lastpass-cli/build/lpass
     -
        name: install lastpass
        command: make install
        args:
          chdir: /tmp/lastpass-cli
+         creates: /usr/bin/lpass
        become: true
        #- to build these would require a gig of dependencies. yes.
        # no, i don't know why. asciidoc needs a gig of dependencies.

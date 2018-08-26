@@ -52,4 +52,6 @@
     -
        name: install ansible-lint
        command: /usr/bin/pip install ansible-lint
+       args:
+         creates: /usr/local/bin/ansible-lint
        become: true
