@@ -44,9 +44,7 @@
     -
       import_tasks: roles/python.yml
     -
-       name: install cppcheck
-       apt: name=cppcheck state=present
-       become: true
+      import_tasks : roles/cpp.yml
     -
       import_tasks: roles/ide.yml
     -
