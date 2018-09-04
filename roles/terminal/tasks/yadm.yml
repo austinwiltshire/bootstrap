@@ -12,6 +12,6 @@
     register: yadm_exists
 -
     name: YADM clone my repo
-    command: yadm clone https://www.github.com/austinwiltshire/yadm.git
+    command: yadm clone git@github.com:austinwiltshire/yadm.git
     creates: /home/vagrant/.yadm/repo.git
     when: yadm_exists.stat.exists == False
