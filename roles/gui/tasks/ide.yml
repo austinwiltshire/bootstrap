@@ -1,0 +1,27 @@
+---
+-
+    name: install repo ubuntu-make
+    apt_repository:
+        repo: ppa:ubuntu-desktop/ubuntu-make
+        state: present
+    become: true
+-
+    name: install ubuntu-make
+    apt:
+        name: ubuntu-make
+        state: present
+    become: true
+-
+    name: install pycharm
+    command: umake ide pycharm-professional ~/.local/share/umake/ide/pycharm-professional
+    args:
+        creates: ~/.local/share/umake/ide/pycharm-professional
+    become_user: vagrant
+    become: true
+-
+    name: install clion
+    command: umake ide clion ~/.local/share/umake/ide/clion
+    args:
+        creates: ~/.local/share/umake/ide/clion
+    become_user: vagrant
+    become: true

@@ -1,0 +1,13 @@
+---
+- import_tasks: git.yml
+- import_tasks: zsh.yml
+- import_tasks: python.yml
+- import_tasks: tmux.yml
+- import_tasks: vim.yml
+- import_tasks: yadm.yml
+- import_tasks: vim_plugins.yml
+- import_tasks: docker.yml
+- import_tasks: ctags.yml
+- import_tasks: powerline.yml
+- import_tasks: lastpass-cli.yml
+- import_tasks: cpp.yml

@@ -1,0 +1,13 @@
+---
+-
+    name: install gnome shell
+    apt:
+        name: gnome-shell
+        state: present
+    become: true
+-
+    name: install ubuntu gnome desktop
+    apt:
+        name: ubuntu-gnome-desktop
+        state: present
+    become: true

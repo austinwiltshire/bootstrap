@@ -1,55 +1,31 @@
 ---
-- hosts: all
-  tasks:
-    -
-      name: install curl
-      apt:
-        name=curl
-        state=present
-      become: true
-    -
-      import_tasks: roles/git.yml
-    -
-      import_tasks: roles/zsh.yml
-    -
-      name: install silver searcher
-      apt:
-        name=silversearcher-ag
-        state=present
-      become: true
-    -
-      name: install pip for python 2.7
-      apt:
-        name=python-pip
-        state=present
-      become: true
-    -
-      import_tasks: roles/tmux.yml
-    -
-      import_tasks: roles/vim.yml
-    -
-      import_tasks: roles/yadm.yml
-    -
-      import_tasks: roles/vim_plugins.yml
-    -
-      import_tasks: roles/docker.yml
-    -
-      import_tasks: roles/gnome.yml
-    -
-      import_tasks: roles/ctags.yml
-    -
-      import_tasks: roles/powerline.yml
-    -
-      import_tasks: roles/lastpass-cli.yml
-    -
-      import_tasks: roles/python.yml
-    -
-      import_tasks : roles/cpp.yml
-    -
-      import_tasks: roles/ide.yml
-    -
-       name: install ansible-lint
-       command: /usr/bin/pip install ansible-lint
-       args:
-         creates: /usr/local/bin/ansible-lint
-       become: true
+-
+    hosts: all
+    roles:
+        - terminal
+        - gui
+    tasks:
+        -
+            name: install curl
+            apt:
+                name: curl
+                state: present
+            become: true
+        -
+            name: install silver searcher
+            apt:
+                name: silversearcher-ag
+                state: present
+            become: true
+        -
+            name: install ansible-lint
+            command: /usr/bin/pip install ansible-lint
+            args:
+                creates: /usr/local/bin/ansible-lint
+            become: true
+        -
+            name: install yamllint
+            command: /usr/bin/pip install yamllint
+            args:
+                creates: /usr/local/bin/yamllint
+            become: true

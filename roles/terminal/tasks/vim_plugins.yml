@@ -1,0 +1,42 @@
+---
+# assumes yadm has already been run. my dotfiles assume directory
+# structure seend below requires python
+-
+    name: Grab vundle for vim
+    git:
+        repo: https://github.com/VundleVim/Vundle.vim.git
+        dest: /home/vagrant/.vim/bundle/Vundle.vim
+        version: master
+-
+    name: Pull in all vim plugins
+    command: vim +PluginInstall +qall
+    args:
+        creates: /home/vagrant/.vim/bundle/ack.vim
+-
+    name: Install cmake (needed by youcompleteme) and last pass
+    # (cmake3 for old ubuntus. switch to just cmake for new ubuntus)
+    apt:
+        name: cmake3
+        state: present
+    become: true
+-
+    name: Install youcomplete me with clang completion
+    command: python3.4 ./install.py --clang-completer
+    args:
+        chdir: ~/.vim/bundle/YouCompleteMe
+        creates: ~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so
+-
+    name: make undo directory for vim
+    file:
+        path: /home/vagrant/.vim/undo
+        state: directory
+-
+    name: make backup directory for vim
+    file:
+        path: /home/vagrant/.vim/backup
+        state: directory
+-
+    name: make swap directory for vim
+    file:
+        path: /home/vagrant/.vim/swap
+        state: directory

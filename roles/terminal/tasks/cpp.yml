@@ -1,0 +1,47 @@
+---
+-
+    name: add gcc repo
+    apt_repository:
+        repo: ppa:ubuntu-toolchain-r/test
+        state: present
+    become: true
+-
+    name: install gcc 6
+    apt:
+        name: gcc-6
+        state: present
+    become: true
+-
+    name: install g++ 6
+    apt:
+        name: g++-6
+        state: present
+    become: true
+-
+    name: install ccache
+    apt:
+        name: ccache
+        state: present
+    become: true
+-
+    name: update alternatives for gcc
+    alternatives:
+        link: /usr/bin/gcc
+        name: gcc
+        path: /usr/bin/gcc-6
+    become: true
+-
+    # ansible doesn't currently support alternative groups / slaves so we have
+    # to maintain these separately
+    name: update alternatives for g++
+    alternatives:
+        link: /usr/bin/g++
+        name: g++
+        path: /usr/bin/g++-6
+    become: true
+-
+    name: install cppcheck
+    apt:
+        name: cppcheck
+        state: present
+    become: true

@@ -1,0 +1,35 @@
+---
+-
+    name: install pip for python 2.7
+    apt:
+        name: python-pip
+        state: present
+    become: true
+-
+    name: grab miniconda
+    get_url:
+        url: http://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh
+        dest: ~/miniconda.sh
+    become: true
+    become_user: vagrant
+-
+    name: install miniconda
+    command: bash ~/miniconda.sh -b -p ~/miniconda
+    args:
+        creates: ~/miniconda/bin
+    become: true
+    become_user: vagrant
+-
+    name: install ipython
+    command: ~/miniconda/bin/conda install ipython
+    # full path because ansible doesn't run .zshrc
+    args:
+        creates: ~/miniconda/bin/ipython
+    become: true
+    become_user: vagrant
+-
+    name: install pylint
+    apt:
+        name: pylint
+        state: present
+    become: true
