@@ -1,9 +1,9 @@
 ---
 -
     name: install powerline-status
-    command: /usr/bin/pip install --user powerline-status
-    args:
-        creates: ~/.local/lib/python2.7/site-packages/powerline_status-2.7.egg-info
+    pip:
+        name: powerline-status
+        extra_args: --user
 -
     # NOTE: you may also have to install these on your host machine if
     # using vagrant. For a windows host, that means going through each

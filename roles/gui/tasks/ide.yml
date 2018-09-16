@@ -12,16 +12,14 @@
         state: present
     become: true
 -
-    name: install pycharm
-    command: umake ide pycharm-professional ~/.local/share/umake/ide/pycharm-professional
+    name: install IDEs (pycharm, clion)
+    command: "umake ide {{ item.name }} {{ item.path }}"
+    with_items:
+        - {name: "pycharm-professional",
+           path: "~/.local/share/umake/ide/pycharm-professional"}
+        - {name: "clion",
+           path: "~/.local/share/umake/ide/clion"}
     args:
-        creates: ~/.local/share/umake/ide/pycharm-professional
-    become_user: vagrant
-    become: true
--
-    name: install clion
-    command: umake ide clion ~/.local/share/umake/ide/clion
-    args:
-        creates: ~/.local/share/umake/ide/clion
+        creates: "{{ item.path }}"
     become_user: vagrant
     become: true

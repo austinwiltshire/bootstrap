@@ -1,3 +1,7 @@
 ---
-- import_tasks: gnome.yml
-- import_tasks: ide.yml
+- include_tasks: "{{ task_item }}"
+  with_items:
+      - gnome.yml
+      - ide.yml
+  loop_control:
+      loop_var: task_item

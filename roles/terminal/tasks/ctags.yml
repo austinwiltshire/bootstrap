@@ -1,5 +1,4 @@
 ---
-# surprisingly complicated
 -
     name: clone universal ctags
     git:
@@ -8,32 +7,21 @@
         dest: /tmp/ctags
         version: master
 -
-    name: install autoreconf, needed for ctags
+    name: install CTAGS dependencies
     apt:
-        name: autoconf
+        name: "{{ item }}"
         state: present
+    with_items:
+        - autoconf
+        - pkg-config
     become: true
 -
-    name: install pkg-config, needed for ctags
-    apt:
-        name: pkg-config
-        state: present
-    become: true
--
-    name: prep building universal ctags
-    command: ./autogen.sh
-    args:
-        chdir: /tmp/ctags
-        creates: /tmp/ctags/configure
--
-    name: configure universal ctags
-    command: ./configure
-    args:
-        chdir: /tmp/ctags
-        creates: /tmp/ctags/Makefile
--
-    name: install universal ctags
-    command: make install
+    name: build and install universal ctags
+    command: "{{ item }}"
+    with_items:
+        - ./autogen.sh
+        - ./configure
+        - make install
     args:
         chdir: /tmp/ctags
         creates: /usr/local/bin/ctags

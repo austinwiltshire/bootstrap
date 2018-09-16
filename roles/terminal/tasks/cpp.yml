@@ -6,42 +6,23 @@
         state: present
     become: true
 -
-    name: install gcc 6
+    name: install GCC/G++ 6
     apt:
-        name: gcc-6
+        name: "{{ item }}"
         state: present
     become: true
--
-    name: install g++ 6
-    apt:
-        name: g++-6
-        state: present
-    become: true
--
-    name: install ccache
-    apt:
-        name: ccache
-        state: present
-    become: true
+    with_items:
+        - gcc-6
+        - g++-6
+        - ccache
+        - cppcheck
 -
     name: update alternatives for gcc
     alternatives:
-        link: /usr/bin/gcc
-        name: gcc
-        path: /usr/bin/gcc-6
+        link: "{{ item.link }}"
+        name: "{{ item.name }}"
+        path: "{{ item.path }}"
     become: true
--
-    # ansible doesn't currently support alternative groups / slaves so we have
-    # to maintain these separately
-    name: update alternatives for g++
-    alternatives:
-        link: /usr/bin/g++
-        name: g++
-        path: /usr/bin/g++-6
-    become: true
--
-    name: install cppcheck
-    apt:
-        name: cppcheck
-        state: present
-    become: true
+    with_items:
+        - {link: "/usr/bin/gcc", name: "gcc", path: "/usr/bin/gcc-6"}
+        - {link: "/usr/bin/g++", name: "g++", path: "/usr/bin/g++-6"}

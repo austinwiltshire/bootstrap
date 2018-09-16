@@ -11,11 +11,10 @@
         name: git-flow
         state: present
     become: true
--   
+-
     name: config git
     command: "git config --global {{ item }}"
     with_items:
-      - "user.name \"John Graham\""
-      - "user.email john.a.graham@gmail.com"
-      - "push.default simple"
-
+        - "user.name \"John Graham\""
+        - "user.email john.a.graham@gmail.com"
+        - "push.default simple"

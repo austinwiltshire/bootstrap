@@ -1,69 +1,22 @@
 ---
 -
-    name: install pre-reqs for lpass cli openssl
+    name: install pre-reqs for lastpass cli
     apt:
-        name: openssl
+        name: "{{ item }}"
         state: present
-    become: true
--
-    name: install pre-reqs for lpass cli libcurl4
-    apt:
-        name: libcurl4-openssl-dev
-        state: present
-    become: true
--
-    name: install pre-reqs for lpass cli libxml2
-    apt:
-        name: libxml2
-        state: present
-    become: true
--
-    name: install pre-reqs for lpass cli libssl-dev
-    apt:
-        name: libssl-dev
-        state: present
-    become: true
--
-    name: install pre-reqs for lpass cli libxml2-dev
-    apt:
-        name: libxml2-dev
-        state: present
-    become: true
--
-    name: install pre-reqs for lpass cli pinentry
-    apt:
-        name: pinentry-curses
-        state: present
-    become: true
--
-    name: install pre-reqs for lpass cli xclip
-    apt:
-        name: xclip
-        state: present
-    become: true
--
-    name: install pre-reqs for lpass cli build-essential
-    apt:
-        name: build-essential
-        state: present
-    become: true
--
-    name: install pre-reqs for lpass cli pkg-config
-    apt:
-        name: pkg-config
-        state: present
-    become: true
-    # not needed and takes a gig just to install this. only needed for
-    # documentation
-    # -
-    #       name: install pre-reqs for lpass cli asciidoc
-    # apt: name: asciidoc state: present
-    # become: true
--
-    name: install pre-reqs for lpass cli xsltproc
-    apt:
-        name: xsltproc
-        state: present
+    with_items:
+        - openssl
+        - libcurl4-openssl-dev
+        - libxml2
+        - libxml2-dev
+        - libssl-dev
+        - pinentry-curses
+        - xclip
+        - build-essential
+        - pkg-config
+        - xsltproc
+        - cmake3
+          # - asciidoc # not needed, installs a gig of dependencies for docs
     become: true
 -
     name: clone lastpass itself
@@ -72,6 +25,16 @@
         depth: 1
         dest: /tmp/lastpass-cli
         version: master
+-
+    name: build and install lastpass
+    command: "{{ item }}"
+    args:
+        chdir: /tmp/lastpass-cli
+        creates: /usr/bin/lpass
+    with_items:
+        - make
+        - make install
+        # - make install-doc # to install a gig of documentation
 -
     name: build lastpass
     command: make
@@ -85,10 +48,3 @@
         chdir: /tmp/lastpass-cli
         creates: /usr/bin/lpass
     become: true
-    # - to build these would require a gig of dependencies. yes.
-    # no, i don't know why. asciidoc needs a gig of dependencies.
-    #       name: install lastpass docs
-    #   shell: make install-doc
-    #   args:
-    #     chdir: /tmp/lastpass-cli
-    #   become: true

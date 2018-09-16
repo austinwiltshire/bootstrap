@@ -1,13 +1,10 @@
 ---
 -
-    name: install gnome shell
+    name: install gnome
     apt:
-        name: gnome-shell
+        name: "{{ item }}"
         state: present
-    become: true
--
-    name: install ubuntu gnome desktop
-    apt:
-        name: ubuntu-gnome-desktop
-        state: present
+    with_items:
+        - gnome-shell
+        - ubuntu-gnome-desktop
     become: true

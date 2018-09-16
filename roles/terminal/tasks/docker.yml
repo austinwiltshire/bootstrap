@@ -1,17 +1,12 @@
 ---
-# be nice to get a single version for this
 -
-    name: Grab apt transport https, needed for docker
+    name: Prereqs for getting the docker apt repo
     apt:
-        name: apt-transport-https
+        name: "{{ item }}"
         state: present
-    become: true
--
-    # be nice to get a single version for this
-    name: Grab ca-certificats, needed for docker
-    apt:
-        name: ca-certificates
-        state: present
+    with_items:
+        - apt-transport-https
+        - ca-certificates
     become: true
 -
     name: get apt-keys for docker apt stuff
@@ -27,25 +22,14 @@
         state: present
     become: true
 -
-    # in the below, the 3.13.0-92-generic was the result of running uname -r on
-    # the image. This could be automated
-    name: gather linux extra dependencies
+    name: Install docker
     apt:
-        name: linux-image-extra-3.13.0-92-generic
+        name: "{{ item }}"
         state: present
-    become: true
--
-    name: gather linux extra virtual dependencies
-    apt:
-        name: linux-image-extra-virtual
-        state: present
-    become: true
--
-    # be nice to get a version locked down here.
-    name: install docker itself!
-    apt:
-        name: docker-engine
-        state: present
+    with_items:  # 3.31.0.92-generic is result of running uname -r on the image
+        - linux-image-extra-3.13.0-92-generic
+        - linux-image-extra-virtual
+        - docker-engine
     become: true
 -
     name: start the docker service
@@ -54,7 +38,6 @@
         enabled: yes
         state: started
 -
-    # docker compose
     name: install docker compose
     get_url:
         url: "https://github.com/docker/compose/releases/download/\

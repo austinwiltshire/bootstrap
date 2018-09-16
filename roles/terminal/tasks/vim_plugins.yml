@@ -26,17 +26,11 @@
         chdir: ~/.vim/bundle/YouCompleteMe
         creates: ~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so
 -
-    name: make undo directory for vim
+    name: make undo, backup and swap directories for vim
     file:
-        path: /home/vagrant/.vim/undo
+        path: "{{ item }}"
         state: directory
--
-    name: make backup directory for vim
-    file:
-        path: /home/vagrant/.vim/backup
-        state: directory
--
-    name: make swap directory for vim
-    file:
-        path: /home/vagrant/.vim/swap
-        state: directory
+    with_items:
+        - "/home/vagrant/.vim/undo"
+        - "/home/vagrant/.vim/backup"
+        - "/home/vagrant/.vim/swap"

@@ -1,105 +1,28 @@
 ---
 -
-    name: install libncruses5-dev for vim
+    name: install VIM dependencies to build vim ourselves
     apt:
-        name: libncurses5-dev
+        name: "{{ item }}"
         state: present
-    become: true
--
-    name: install libegnome2-dev for vim
-    apt:
-        name: libgnome2-dev
-        state: present
-    become: true
--
-    name: install libgnomeui-dev for vim
-    apt:
-        name: libgnomeui-dev
-        state: present
-    become: true
--
-    name: install libgtk2.0-dev for vim
-    apt:
-        name: libgtk2.0-dev
-        state: present
-    become: true
--
-    name: install libatk1.0-dev for vim
-    apt:
-        name: libatk1.0-dev
-        state: present
-    become: true
--
-    name: install libbonoboui2-dev for vim
-    apt:
-        name: libbonoboui2-dev
-        state: present
-    become: true
--
-    name: install libcairo2-dev for vim
-    apt:
-        name: libcairo2-dev
-        state: present
-    become: true
--
-    name: install libx11-dev for vim
-    apt:
-        name: libx11-dev
-        state: present
-    become: true
--
-    name: install libxpm-dev for vim
-    apt:
-        name: libxpm-dev
-        state: present
-    become: true
--
-    name: install libxt-dev for vim
-    apt:
-        name: libxt-dev
-        state: present
-    become: true
--
-    name: install python-dev for vim
-    apt:
-        name: python-dev
-        state: present
-    become: true
--
-    name: install python3-dev for vim
-    apt:
-        name: python3-dev
-        state: present
-    become: true
--
-    name: install ruby-dev for vim
-    apt:
-        name: ruby-dev
-        state: present
-    become: true
--
-    name: install lua5.1 for vim
-    apt:
-        name: lua5.1
-        state: present
-    become: true
--
-    name: install liblua5.1-dev for vim
-    apt:
-        name: liblua5.1-dev
-        state: present
-    become: true
--
-    name: install libperl-dev for vim
-    apt:
-        name: libperl-dev
-        state: present
-    become: true
--
-    name: install git for vim
-    apt:
-        name: git
-        state: present
+    with_items:
+        - libncurses5-dev
+        - libgnome2-dev
+        - libgnomeui-dev
+        - libgtk2.0-dev
+        - libatk1.0-dev
+        - libbonoboui2-dev
+        - libcairo2-dev
+        - libx11-dev
+        - libxpm-dev
+        - libxt-dev
+        - python-dev
+        - python3-dev
+        - ruby-dev
+        - lua5.1
+        - liblua5.1-dev
+        - libperl-dev
+        - git
+
     become: true
 -
     name: grab vim source
@@ -128,27 +51,31 @@
         chdir: /home/vagrant/vim
         creates: /home/vagrant/vim/src/auto/config.mk
 -
-    name: build vim
-    command: make
-    args:
-        chdir: /home/vagrant/vim
-        creates: /home/vagrant/vim/src/vim
--
-    name: install vim
-    command: make install
+    name: configure, build and install vim
+    command: "{{ item }}"
+    with_items:
+        - "./configure --with-features=huge \
+        --enable-multibyte \
+        --enable-rubyinterp=yes \
+        --enable-python3interp=yes \
+        --with-python3-config-dir=\
+        /usr/lib/python3.4/config-3.4m-x86_64-linux-gnu \
+        --enable-perlinterp=yes \
+        --enable-luainterp=yes \
+        --enable-gui=gtk2 \
+        --enable-cscope \
+        --prefix=/usr/local"
+        - "make"
+        - "make install"
     args:
         chdir: /home/vagrant/vim
         creates: /usr/local/bin/vim
-    become: true
 -
-    name: set up vim editor defaults
+    name: set up vim defaults
     alternatives:
-        name: editor
-        path: /usr/local/bin/vim
-    become: true
--
-    name: set up vim edit defaults
-    alternatives:
-        name: vi
-        path: /usr/local/bin/vim
+        name: "{{ item.name }}"
+        path: "{{ item.path }}"
+    with_items:
+        - {name: "editor", path: "/usr/local/bin/vim"}
+        - {name: "vi", path: "/usr/local/bin/vim"}
     become: true

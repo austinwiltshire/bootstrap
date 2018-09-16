@@ -6,26 +6,18 @@
         - gui
     tasks:
         -
-            name: install curl
+            name: install remaining apt dependencies
             apt:
-                name: curl
+                name: "{{ item }}"
                 state: present
-            become: true
+            with_items:
+                - curl
+                - silversearcher-ag
         -
-            name: install silver searcher
-            apt:
-                name: silversearcher-ag
-                state: present
-            become: true
-        -
-            name: install ansible-lint
-            command: /usr/bin/pip install ansible-lint
-            args:
-                creates: /usr/local/bin/ansible-lint
-            become: true
-        -
-            name: install yamllint
-            command: /usr/bin/pip install yamllint
-            args:
-                creates: /usr/local/bin/yamllint
+            name: install remaining python deps
+            pip:
+                name: "{{ item }}"
+            with_items:
+                - ansible-lint
+                - yamllint
             become: true
