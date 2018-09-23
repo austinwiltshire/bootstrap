@@ -5,19 +5,12 @@
         url: https://github.com/TheLocehiliosan/yadm/raw/master/yadm
         dest: /usr/local/bin/yadm
         mode: a+x
-    become: true
 -
     name: Clone YADM from https, but convert to ssh after
     command: "yadm {{ item }}"
     args:
-        creates: "/home/vagrant/.yadm/repo.git/config"
+        creates: "~/.yadm/repo.git/config"
     with_items:
         - "clone https://github.com/austinwiltshire/yadm.git"
         - "remote set-url origin git@github.com:austinwiltshire/yadm.git"
-    become: true
     become_user: vagrant
-    #    name: YADM clone my repo
-    #    command: yadm clone https://github.com/austinwiltshire/yadm.git
-    #-
-    #    name: Switch YADM to using keys
-    #command: yadm remote set-url origin git@github.com:austinwiltshire/yadm.git

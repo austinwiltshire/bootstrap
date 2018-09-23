@@ -22,34 +22,13 @@
         - liblua5.1-dev
         - libperl-dev
         - git
-
-    become: true
 -
     name: grab vim source
     git:
         repo: 'https://github.com/vim/vim.git'
         depth: 1
-        dest: /home/vagrant/vim
+        dest: /tmp/vim
         version: master
--
-    name: configure vim
-    # NOTE: trying both python's here. this may interfere with
-    # youcomplete me. To  fix, just turn python3 off.
-    # https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source
-    command: ./configure --with-features=huge \
-        --enable-multibyte \
-        --enable-rubyinterp=yes \
-        --enable-python3interp=yes \
-        --with-python3-config-dir=\
-        /usr/lib/python3.4/config-3.4m-x86_64-linux-gnu \
-        --enable-perlinterp=yes \
-        --enable-luainterp=yes \
-        --enable-gui=gtk2 \
-        --enable-cscope \
-        --prefix=/usr/local
-    args:
-        chdir: /home/vagrant/vim
-        creates: /home/vagrant/vim/src/auto/config.mk
 -
     name: configure, build and install vim
     command: "{{ item }}"
@@ -68,7 +47,7 @@
         - "make"
         - "make install"
     args:
-        chdir: /home/vagrant/vim
+        chdir: /tmp/vim
         creates: /usr/local/bin/vim
 -
     name: set up vim defaults
@@ -78,4 +57,3 @@
     with_items:
         - {name: "editor", path: "/usr/local/bin/vim"}
         - {name: "vi", path: "/usr/local/bin/vim"}
-    become: true

@@ -7,20 +7,17 @@
     with_items:
         - apt-transport-https
         - ca-certificates
-    become: true
 -
     name: get apt-keys for docker apt stuff
     apt_key:
         keyserver: hkp://ha.pool.sks-keyservers.net:80
         id: 58118E89F3A912897C070ADBF76221572C52609D
-    become: true
 -
     # this has to line up with the version of ubuntu we're on - 14.04 is trusty
     name: install repo for docker
     apt_repository:
         repo: deb https://apt.dockerproject.org/repo ubuntu-trusty main
         state: present
-    become: true
 -
     name: Install docker
     apt:
@@ -30,7 +27,6 @@
         - linux-image-extra-3.13.0-92-generic
         - linux-image-extra-virtual
         - docker-engine
-    become: true
 -
     name: start the docker service
     service:
@@ -44,4 +40,3 @@
               1.9.0/docker-compose-Linux-x86_64"
         dest: /usr/local/bin/docker-compose
         mode: a+x
-    become: true

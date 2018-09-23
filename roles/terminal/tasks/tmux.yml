@@ -5,17 +5,16 @@
     apt_repository:
         repo: ppa:pi-rho/dev
         state: present
-    become: true
 -
     name: install tmux
     apt:
         name: tmux=2.0-1~ppa1~t
         state: present
-    become: true
 -
     name: install tmux plugin manager
     git:
         repo: 'https://github.com/tmux-plugins/tpm'
         depth: 1
-        dest: /home/vagrant/.tmux/plugins/tpm
+        dest: ~/.tmux/plugins/tpm
         version: master
+    become_user: "vagrant"

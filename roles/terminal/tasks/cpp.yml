@@ -4,7 +4,6 @@
     apt_repository:
         repo: ppa:ubuntu-toolchain-r/test
         state: present
-    become: true
 -
     name: install GCC/G++ 6
     apt:
@@ -22,7 +21,6 @@
         link: "{{ item.link }}"
         name: "{{ item.name }}"
         path: "{{ item.path }}"
-    become: true
     with_items:
         - {link: "/usr/bin/gcc", name: "gcc", path: "/usr/bin/gcc-6"}
         - {link: "/usr/bin/g++", name: "g++", path: "/usr/bin/g++-6"}

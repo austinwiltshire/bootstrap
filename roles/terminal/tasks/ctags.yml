@@ -25,4 +25,3 @@
     args:
         chdir: /tmp/ctags
         creates: /usr/local/bin/ctags
-    become: true

@@ -20,4 +20,3 @@
             with_items:
                 - ansible-lint
                 - yamllint
-            become: true

@@ -17,7 +17,6 @@
         - xsltproc
         - cmake3
           # - asciidoc # not needed, installs a gig of dependencies for docs
-    become: true
 -
     name: clone lastpass itself
     git:
@@ -35,16 +34,3 @@
         - make
         - make install
         # - make install-doc # to install a gig of documentation
--
-    name: build lastpass
-    command: make
-    args:
-        chdir: /tmp/lastpass-cli
-        creates: /tmp/lastpass-cli/build/lpass
--
-    name: install lastpass
-    command: make install
-    args:
-        chdir: /tmp/lastpass-cli
-        creates: /usr/bin/lpass
-    become: true

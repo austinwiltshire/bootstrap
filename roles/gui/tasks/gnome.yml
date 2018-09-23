@@ -7,4 +7,3 @@
     with_items:
         - gnome-shell
         - ubuntu-gnome-desktop
-    become: true
