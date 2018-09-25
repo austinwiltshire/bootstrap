@@ -1,0 +1,18 @@
+# Build variables and shortcuts
+# You can include this file in your .bashrc file to make the bidder build work the legacy way
+# For example, add this line to your .bashrc file
+# source legacy_env_vars.rc
+
+# You may need to modify path based on your local configuration
+
+DEPENDENCY_DIRECTORY=/vagrant/bidder/deps
+export DEPENDENCY_DIRECTORY
+
+DEPENDENCY_MODULE_PATH=/vagrant/bidder/sifi_cmake
+export DEPENDENCY_MODULE_PATH
+
+alias dmake="cmake -DCMAKE_MODULE_PATH=$DEPENDENCY_MODULE_PATH -DDEPENDENCY_DIRECTORY=$DEPENDENCY_DIRECTORY -DCMAKE_BUILD_TYPE=Debug"
+alias pmake="cmake -DCMAKE_MODULE_PATH=$DEPENDENCY_MODULE_PATH -DDEPENDENCY_DIRECTORY=$DEPENDENCY_DIRECTORY -DPRE_BUILT_DEPS=ON -DCMAKE_BUILD_TYPE=Debug"
+alias dmaker="cmake -DCMAKE_MODULE_PATH=$DEPENDENCY_MODULE_PATH -DDEPENDENCY_DIRECTORY=$DEPENDENCY_DIRECTORY -DCMAKE_BUILD_TYPE=RelWithDebInfo"
+alias pmaker="cmake -DCMAKE_MODULE_PATH=$DEPENDENCY_MODULE_PATH -DDEPENDENCY_DIRECTORY=$DEPENDENCY_DIRECTORY -DPRE_BUILT_DEPS=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo"
+

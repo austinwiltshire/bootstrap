@@ -1,0 +1,30 @@
+
+# Chruby
+# Defines the ruby version to use
+source /usr/local/share/chruby/chruby.sh
+chruby ruby-2.4
+
+# Used by sifi hardware gem to find boxes
+DATA_BAG_PATH=/vagrant/chef-repo/data_bags
+export DATA_BAG_PATH
+
+# Used by projects that require the midnight toker gem
+# This points to the command line process that can be read keywords
+MIDNIGHT_TOKER_BIN=/vagrant/midnight_toker/build/src
+export MIDNIGHT_TOKER_BIN
+
+# Used by projects that require the midnight toker gem
+# This points to test dictionaries that can be used for tests
+MIDNIGHT_TOKER_DICTS=/vagrant/midnight_toker/test/config/dicts
+export MIDNIGHT_TOKER_DICTS
+
+# Used by older projects that still have ueber dependencies
+# This should go away *eventually*
+UEBER_DIR=/vagrant/ueber
+export UEBER_DIR
+
+#put ccache's gcc/g++ ahead of others so it gets found
+export PATH=/usr/lib/ccache:$PATH
+
+#login to the private docker
+docker login -u simplifi -p simplifi https://dcdocker1.simpli.fi:5000/v2/

@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-required_plugins = %w(vagrant-vbguest)
+required_plugins = %w(vagrant-vbguest vagrant-omnibus)
 
 plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
 if not plugins_to_install.empty?
@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "bento/ubuntu-14.04"
-  config.vm.box_version = "2.2.9"
+  #config.vm.box_version = "2.2.9"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -61,10 +61,10 @@ Vagrant.configure("2") do |config|
     vb.gui = true
   
     # Customize the amount of memory on the VM:
-    #    vb.memory = "24000" #use this amount when developing on this box
-    #    vb.cpus = "6" #same here
-    vb.memory = "4096" #use this amount when just doing lightweight stuff
-    vb.cpus = "1" #same here
+        vb.memory = "24000" #use this amount when developing on this box
+        vb.cpus = "6" #same here
+    #vb.memory = "4096" #use this amount when just doing lightweight stuff
+    #vb.cpus = "1" #same here
   end
   #
   # View the documentation for the provider you are using for more
@@ -80,9 +80,24 @@ Vagrant.configure("2") do |config|
 #  config.vm.provision "shell", inline: "sudo apt-get install -y xfce4"
 #  config.vm.provision "shell", inline: "sudo /usr/share/debconf/fix_db.pl"
 #  config.vm.provision "shell", inline: "sudo apt-get update"
+  #
+  config.omnibus.chef_version = :latest
+  config.vm.provision "chef_solo" do |chef|
+    # A paticular version of chef can be supplied
+    chef.channel = "stable"
+    chef.version = '12.22.3'
+
+    chef.cookbooks_path = "./provision/cookbooks"
+
+    chef.json = {"server_username" => "johngraham"}
+
+    chef.add_recipe 'bidder_test'
+  end
 
   config.vm.provision :ansible_local do |ansible|
     ansible.playbook = "playbook.yml"
+    ansible.become = true
+#    ansible.verbose = true
   end
 
 
