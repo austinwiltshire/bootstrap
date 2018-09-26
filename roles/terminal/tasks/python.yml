@@ -1,27 +1,39 @@
 ---
 -
-    name: install pip for python 2.7
-    apt:
-        name: python-pip
-        state: present
--
-    name: grab miniconda
+    name: grab pip installer
     get_url:
-        url: http://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh
-        dest: /tmp/miniconda.sh
--
-    name: install miniconda
-    command: bash /tmp/miniconda.sh -b -p ~/miniconda
-    args:
-        creates: /miniconda/bin
+        url: https://bootstrap.pypa.io/get-pip.py
+        dest: /tmp/get-pip.py
     become_user: vagrant
 -
-    name: install ipython
-    command: ~/miniconda/bin/conda install ipython
-    # full path because ansible doesn't run .zshrc
+    name: install pip2
+    command: python2.7 /tmp/get-pip.py --user
     args:
-        creates: ~/miniconda/bin/ipython
+        creates: ~/.local/bin/pip2
     become_user: vagrant
+-
+    name: install pip3
+    command: python3.4 /tmp/get-pip.py --user
+    args:
+        creates: ~/.local/bin/pip3
+    become_user: vagrant
+#    name: grab miniconda
+#    get_url:
+#        url: http://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh
+#        dest: /tmp/miniconda.sh
+#-
+#    name: install miniconda
+#    command: bash /tmp/miniconda.sh -b -p ~/miniconda
+#    args:
+#        creates: ~/miniconda/bin
+#    become_user: vagrant
+#-
+#    name: install ipython
+#    command: ~/miniconda/bin/conda install ipython
+#    # full path because ansible doesn't run .zshrc
+#    args:
+#        creates: ~/miniconda/bin/ipython
+#    become_user: vagrant
 -
     name: install pylint
     apt:

@@ -1,5 +1,10 @@
 ---
 -
+    name: install system python-pip
+    apt: 
+        name: python-pip
+        state: present
+-
     name: install powerline-status
     pip:
         name: powerline-status
