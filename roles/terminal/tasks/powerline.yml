@@ -1,15 +1,17 @@
 ---
 -
-    name: install system python-pip
-    apt: 
-        name: python-pip
-        state: present
--
+# TODO: how do i make this playbook dependent on the python playbook?
+#    name: install system python-pip
+#    apt: 
+#        name: python-pip
+#        state: present
+#-
     name: install powerline-status
     pip:
         name: powerline-status
+        executable: "{{pyenv_root}}/versions/2.7.16/bin/pip"
         extra_args: --user
-    become_user: "vagrant"
+    become_user: "austinwiltshire"
 -
     # NOTE: you may also have to install these on your host machine if
     # using vagrant. For a windows host, that means going through each
@@ -21,13 +23,13 @@
     git:
         repo: 'https://github.com/powerline/fonts.git'
         depth: 1
-        dest: /tmp/powerline-fonts
+        dest: ~/.local/tmp/powerline-fonts
         version: master
-    become_user: "vagrant"
+    become_user: "austinwiltshire"
 -
     name: install fonts
     command: ./install.sh
     args:
-        chdir: /tmp/powerline-fonts
+        chdir: ~/.local/tmp/powerline-fonts
         creates: ~/.local/share/fonts/Ubuntu Mono derivative Powerline Bold.ttf
-    become_user: "vagrant"
+    become_user: "austinwiltshire"

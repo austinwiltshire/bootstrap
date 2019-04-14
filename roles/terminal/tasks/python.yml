@@ -5,7 +5,16 @@
       version: 2.7.16
       pyenv_root: "~/.pyenv"
 -
+    name: pyenv install 3.7.3 
+    pyenv:
+      version: 3.7.3
+      pyenv_root: "~/.pyenv"
+    environment:
+      PYTHON_CONFIGURE_OPTS: "--enable-shared" # you complete me needs python 3, and needs it shared
+
+-
     name: install virtualenv
     pip:
       name: virtualenv
       executable: "{{pyenv_root}}/versions/2.7.16/bin/pip"
+      extra_args: --user

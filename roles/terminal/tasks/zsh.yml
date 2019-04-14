@@ -7,7 +7,7 @@
 -
     name: set zsh as default shell to vagrant
     user:
-        name: vagrant
+        name: austinwiltshire
         shell: /bin/zsh
 -
     name: install oh-my-zsh
@@ -16,4 +16,3 @@
         depth: 1
         dest: ~/.oh-my-zsh
         version: master
-    become_user: "vagrant"

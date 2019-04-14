@@ -15,22 +15,25 @@
         - build-essential
         - pkg-config
         - xsltproc
-        - cmake3
+        - cmake
           # - asciidoc # not needed, installs a gig of dependencies for docs
+    become: yes
 -
     name: clone lastpass itself
     git:
         repo: 'https://github.com/lastpass/lastpass-cli'
         depth: 1
-        dest: /tmp/lastpass-cli
+        dest: ~/.local/tmp/lastpass-cli
         version: master
+    become_user: "austinwiltshire"
 -
     name: build and install lastpass
     command: "{{ item }}"
     args:
-        chdir: /tmp/lastpass-cli
-        creates: /usr/bin/lpass
+        chdir: ~/.local/tmp/lastpass-cli
+        creates: ~/.local/bin/lpass
     with_items:
-        - make
-        - make install
+        - PREFIX="/home/austinwiltshire/.local" make
+        - PREFIX="/home/austinwiltshire/.local" make install
         # - make install-doc # to install a gig of documentation
+    become_user: "austinwiltshire"

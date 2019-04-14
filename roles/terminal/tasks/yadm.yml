@@ -13,4 +13,3 @@
     with_items:
         - "clone https://github.com/austinwiltshire/yadm.git"
         - "remote set-url origin git@github.com:austinwiltshire/yadm.git"
-    become_user: vagrant

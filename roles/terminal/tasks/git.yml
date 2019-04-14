@@ -4,11 +4,11 @@
     apt:
         name: git
         state: present
--
-    name: install git-flow
-    apt:
-        name: git-flow
-        state: present
+        #-
+#    name: install git-flow
+#    apt:
+#        name: git-flow
+#        state: present
 -
     name: config git
     command: "git config --global {{ item }}"
@@ -16,4 +16,4 @@
         - "user.name \"John Graham\""
         - "user.email john.a.graham@gmail.com"
         - "push.default simple"
-    become_user: "vagrant"
+    become_user: "austinwiltshire"

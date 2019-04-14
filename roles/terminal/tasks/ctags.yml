@@ -16,11 +16,12 @@
         - pkg-config
     become: true
 -
+#TODO: get the current home directory programmatically, don't use ausitnwiltshire
     name: build and install universal ctags
     command: "{{ item }}"
     with_items:
         - ./autogen.sh
-        - ./configure
+        - ./configure --prefix=/home/austinwiltshire/.local
         - make install
     args:
         chdir: /tmp/ctags

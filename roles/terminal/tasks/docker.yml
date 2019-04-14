@@ -7,11 +7,11 @@
     with_items:
         - apt-transport-https
         - ca-certificates
--
-    name: get apt-keys for docker apt stuff
-    apt_key:
-        keyserver: hkp://ha.pool.sks-keyservers.net:80
-        id: 58118E89F3A912897C070ADBF76221572C52609D
+          #-
+          #    name: get apt-keys for docker apt stuff
+          #    apt_key:
+          #        keyserver: hkp://ha.pool.sks-keyservers.net:80
+          #        id: 58118E89F3A912897C070ADBF76221572C52609D
 -
     # this has to line up with the version of ubuntu we're on - 14.04 is trusty
     name: install repo for docker

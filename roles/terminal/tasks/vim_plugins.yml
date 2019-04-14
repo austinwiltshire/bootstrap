@@ -7,26 +7,23 @@
         repo: https://github.com/VundleVim/Vundle.vim.git
         dest: ~/.vim/bundle/Vundle.vim
         version: master
-    become_user: "vagrant"
 -
     name: Pull in all vim plugins
     command: vim +PluginInstall +qall
     args:
         creates: ~/.vim/bundle/ack.vim
-    become_user: "vagrant"
 -
     name: Install cmake (needed by youcompleteme) and last pass
     # (cmake3 for old ubuntus. switch to just cmake for new ubuntus)
     apt:
-        name: cmake3
+        name: cmake
         state: present
 -
     name: Install youcomplete me with clang completion
-    command: python3.4 ./install.py --clang-completer
+    command: ~/.pyenv/versions/3.7.3/bin/python ./install.py --clang-completer
     args:
         chdir: ~/.vim/bundle/YouCompleteMe
         creates: ~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so
-    become_user: "vagrant"
 -
     name: make undo, backup and swap directories for vim
     file:
@@ -36,4 +33,3 @@
         - "~/.vim/undo"
         - "~/.vim/backup"
         - "~/.vim/swap"
-    become_user: "vagrant"
