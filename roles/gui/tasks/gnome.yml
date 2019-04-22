@@ -4,6 +4,8 @@
     apt:
         name: "{{ item }}"
         state: present
+        update_cache: yes
     with_items:
         - gnome-shell
         - ubuntu-gnome-desktop
+    become: yes

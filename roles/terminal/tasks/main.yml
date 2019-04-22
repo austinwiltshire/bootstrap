@@ -8,7 +8,7 @@
           - yadm.yml
           - vim.yml
           - vim_plugins.yml
-          #      - docker.yml
+          - docker.yml
           - ctags.yml
           - powerline.yml
           - lastpass-cli.yml

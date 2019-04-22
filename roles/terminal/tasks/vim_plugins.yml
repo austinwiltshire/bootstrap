@@ -14,10 +14,10 @@
         creates: ~/.vim/bundle/ack.vim
 -
     name: Install cmake (needed by youcompleteme) and last pass
-    # (cmake3 for old ubuntus. switch to just cmake for new ubuntus)
     apt:
         name: cmake
         state: present
+    become: yes
 -
     name: Install youcomplete me with clang completion
     command: ~/.pyenv/versions/3.7.3/bin/python ./install.py --clang-completer

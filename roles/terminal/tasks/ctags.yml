@@ -4,7 +4,7 @@
     git:
         repo: 'https://github.com/universal-ctags/ctags.git'
         depth: 1
-        dest: /tmp/ctags
+        dest: ~/.local/tmp/ctags
         version: master
 -
     name: install CTAGS dependencies
@@ -14,7 +14,7 @@
     with_items:
         - autoconf
         - pkg-config
-    become: true
+    become: yes
 -
 #TODO: get the current home directory programmatically, don't use ausitnwiltshire
     name: build and install universal ctags
@@ -24,5 +24,5 @@
         - ./configure --prefix=/home/austinwiltshire/.local
         - make install
     args:
-        chdir: /tmp/ctags
-        creates: /usr/local/bin/ctags
+        chdir: ~/.local/tmp/ctags
+        creates: /home/austinwiltshire/.local/bin/ctags

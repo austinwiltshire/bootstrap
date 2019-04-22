@@ -4,11 +4,13 @@
     apt:
         name: zsh
         state: present
+    become: yes
 -
-    name: set zsh as default shell to vagrant
+    name: set zsh as default shell to user
     user:
         name: austinwiltshire
         shell: /bin/zsh
+    become: yes
 -
     name: install oh-my-zsh
     git:

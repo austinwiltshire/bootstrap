@@ -1,14 +1,10 @@
 ---
 -
-    name: install repo ubuntu-make
-    apt_repository:
-        repo: ppa:ubuntu-desktop/ubuntu-make
-        state: present
--
     name: install ubuntu-make
     apt:
         name: ubuntu-make
         state: present
+    become: yes
 -
     name: install IDEs (pycharm, clion)
     command: "umake ide {{ item.name }} {{ item.path }}"
@@ -19,4 +15,3 @@
            path: "~/.local/share/umake/ide/clion"}
     args:
         creates: "{{ item.path }}"
-    become_user: vagrant

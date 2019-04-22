@@ -1,15 +1,10 @@
 ---
-# this has to line up with the version of ubuntu we're on - 14.04 is trusty
-#-
-#    name: install repo for tmux
-#    apt_repository:
-#        repo: ppa:pi-rho/dev
-#        state: present
 -
     name: install tmux
     apt:
-            #        name: tmux=2.0-1~ppa1~t
+        name: tmux
         state: present
+    become: yes
 -
     name: install tmux plugin manager
     git:

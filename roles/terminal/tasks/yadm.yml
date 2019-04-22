@@ -3,11 +3,11 @@
     name: install YADM without messing with the apt repositories
     get_url:
         url: https://github.com/TheLocehiliosan/yadm/raw/master/yadm
-        dest: /usr/local/bin/yadm
+        dest: ~/.local/bin/yadm
         mode: a+x
 -
     name: Clone YADM from https, but convert to ssh after
-    command: "yadm {{ item }}"
+    command: "~/.local/bin/yadm {{ item }}"
     args:
         creates: "~/.yadm/repo.git/config"
     with_items:

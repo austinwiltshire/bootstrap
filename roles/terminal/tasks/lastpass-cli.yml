@@ -36,4 +36,3 @@
         - PREFIX="/home/austinwiltshire/.local" make
         - PREFIX="/home/austinwiltshire/.local" make install
         # - make install-doc # to install a gig of documentation
-    become_user: "austinwiltshire"
