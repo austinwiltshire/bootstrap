@@ -15,6 +15,7 @@
        with_items:
          - curl
          - silversearcher-ag
+       become: yes
     #        -
         #            name: install remaining python deps
         #    pip:

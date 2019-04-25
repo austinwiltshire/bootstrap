@@ -15,3 +15,5 @@
            path: "~/.local/share/umake/ide/clion"}
     args:
         creates: "{{ item.path }}"
+    become: yes # this hsouldn't require become, but umake doesn't like to run without it. weird.
+    become_user: austinwiltshire

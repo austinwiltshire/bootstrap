@@ -10,3 +10,4 @@
         - g++
         - ccache
         - cppcheck
+        - cmake

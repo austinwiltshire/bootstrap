@@ -1,4 +1,19 @@
 ---
+-   
+    name: install Python Requirements
+    apt:
+        name: "{{ item }}"
+        state: present
+    become: true
+    with_items:
+        - zlib1g-dev
+        - libssl-dev
+        - libreadline6-dev
+        - libbz2-dev
+        - libsqlite3-dev
+        - build-essential
+        - python3-dev
+        - libffi-dev
 -
     name: pyenv install 2.7.16
     pyenv:
