@@ -10,10 +10,10 @@
     command: "umake ide {{ item.name }} {{ item.path }}"
     with_items:
         - {name: "pycharm-professional",
-           path: "~/.local/share/umake/ide/pycharm-professional"}
+           path: "/home/austinwiltshire/.local/share/umake/ide/pycharm-professional"}
         - {name: "clion",
-           path: "~/.local/share/umake/ide/clion"}
+           path: "/home/austinwiltshire/.local/share/umake/ide/clion"}
     args:
         creates: "{{ item.path }}"
     become: yes # this hsouldn't require become, but umake doesn't like to run without it. weird.
-    become_user: austinwiltshire
+    #we have to use the fully qualified path above because we're sudo when we run this.

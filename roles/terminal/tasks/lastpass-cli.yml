@@ -25,14 +25,15 @@
         depth: 1
         dest: ~/.local/tmp/lastpass-cli
         version: master
-    become_user: "austinwiltshire"
 -
     name: build and install lastpass
     command: "{{ item }}"
+    environment:
+      PREFIX: ~/.local/tmp/lastpass-cli
     args:
         chdir: ~/.local/tmp/lastpass-cli
         creates: ~/.local/bin/lpass
     with_items:
-        - PREFIX="/home/austinwiltshire/.local" make
-        - PREFIX="/home/austinwiltshire/.local" make install
+        - make
+        - make install
         # - make install-doc # to install a gig of documentation
