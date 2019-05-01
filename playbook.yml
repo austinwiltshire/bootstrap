@@ -5,8 +5,8 @@
     - suzuki-shunsuke.pyenv # gets pyenv
     - suzuki-shunsuke.pyenv-module # allows use of pyenv in playbooks
     - suzuki-shunsuke.pyenv-virtualenv # allows use of virtual env in playbooks
-    - gui
     - terminal
+    - gui
   tasks:
     -  name: install remaining apt dependencies
        apt:
