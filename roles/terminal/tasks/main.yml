@@ -1,8 +1,8 @@
 ---
 - include_tasks: "{{ task_item }}"
   with_items:
-         - cpp.yml
          - python.yml
+         - cpp.yml
          - git.yml
          - zsh.yml
          - tmux.yml
@@ -13,5 +13,6 @@
          - ctags.yml
          - powerline.yml
          - lastpass-cli.yml
+         - other.yml
   loop_control:
       loop_var: task_item

@@ -1,0 +1,10 @@
+---
+-  
+  name: install remaining apt dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - curl
+    - silversearcher-ag
+  become: yes
