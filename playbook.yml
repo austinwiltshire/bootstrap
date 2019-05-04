@@ -6,7 +6,7 @@
     - suzuki-shunsuke.pyenv-module # allows use of pyenv in playbooks
     - suzuki-shunsuke.pyenv-virtualenv # allows use of virtual env in playbooks
     - terminal
-      #- gui
+    - gui
       #  tasks:
     #    -  debug: var=ansible_facts
     #       become: yes
