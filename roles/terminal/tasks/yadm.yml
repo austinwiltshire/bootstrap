@@ -3,13 +3,13 @@
     name: install YADM without messing with the apt repositories
     get_url:
         url: https://github.com/TheLocehiliosan/yadm/raw/master/yadm
-        dest: ~/.local/bin/yadm
+        dest: "{{ ansible_facts['user_dir'] }}/.local/bin/yadm"
         mode: a+x
 -
     name: Clone YADM from https, but convert to ssh after
-    command: "~/.local/bin/yadm {{ item }}"
+    command: "{{ ansible_facts['user_dir'] }}/.local/bin/yadm {{ item }}"
     args:
-        creates: "~/.yadm/repo.git/config"
+        creates: "{{ ansible_facts['user_dir'] }}/.yadm/repo.git/config"
     with_items:
         - "clone https://github.com/austinwiltshire/yadm.git"
         - "remote set-url origin git@github.com:austinwiltshire/yadm.git"

@@ -10,9 +10,9 @@
     command: "umake ide {{ item.name }} {{ item.path }}"
     with_items:
         - {name: "pycharm-professional",
-           path: "/home/austinwiltshire/.local/share/umake/ide/pycharm-professional"}
+           path: "{{ ansible_facts['user_dir'] }}/.local/share/umake/ide/pycharm-professional"}
         - {name: "clion",
-           path: "/home/austinwiltshire/.local/share/umake/ide/clion"}
+           path: "{{ ansible_facts['user_dir'] }}/.local/share/umake/ide/clion"}
     args:
         creates: "{{ item.path }}"
         # become: yes # this hsouldn't require become, but umake doesn't like to run without it. weird.

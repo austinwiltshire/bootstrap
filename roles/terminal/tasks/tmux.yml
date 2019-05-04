@@ -10,5 +10,5 @@
     git:
         repo: 'https://github.com/tmux-plugins/tpm'
         depth: 1
-        dest: ~/.tmux/plugins/tpm
+        dest: "{{ ansible_facts['user_dir'] }}/.tmux/plugins/tpm"
         version: master

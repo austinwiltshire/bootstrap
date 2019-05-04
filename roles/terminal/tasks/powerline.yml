@@ -17,11 +17,11 @@
     git:
         repo: 'https://github.com/powerline/fonts.git'
         depth: 1
-        dest: ~/.local/tmp/powerline-fonts
+        dest: "{{ ansible_facts['user_dir'] }}/.local/tmp/powerline-fonts"
         version: master
 -
     name: install fonts
     command: ./install.sh
     args:
-        chdir: ~/.local/tmp/powerline-fonts
-        creates: ~/.local/share/fonts/Ubuntu Mono derivative Powerline Bold.ttf
+        chdir: "{{ ansible_facts['user_dir'] }}/.local/tmp/powerline-fonts"
+        creates: "{{ ansible_facts['user_dir'] }}/.local/share/fonts/Ubuntu Mono derivative Powerline Bold.ttf"
