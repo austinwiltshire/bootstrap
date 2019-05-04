@@ -1,0 +1,4 @@
+- src: suzuki-shunsuke.pyenv # installs pyenv
+- src: suzuki-shunsuke.pyenv-module # use pyenv in ansible
+- src: suzuki-shunsuke.pyenv-virtualenv # use virtual env in ansible
+- src: gantsign.oh-my-zsh # installs oh my zsh
