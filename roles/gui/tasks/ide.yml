@@ -1,22 +1,20 @@
 ---
 -
-    name: install repo ubuntu-make
-    apt_repository:
-        repo: ppa:ubuntu-desktop/ubuntu-make
-        state: present
--
     name: install ubuntu-make
     apt:
         name: ubuntu-make
         state: present
+    become: yes
 -
     name: install IDEs (pycharm, clion)
     command: "umake ide {{ item.name }} {{ item.path }}"
     with_items:
         - {name: "pycharm-professional",
-           path: "~/.local/share/umake/ide/pycharm-professional"}
+           path: "{{ ansible_facts['user_dir'] }}/.local/share/umake/ide/pycharm-professional"}
         - {name: "clion",
-           path: "~/.local/share/umake/ide/clion"}
+           path: "{{ ansible_facts['user_dir'] }}/.local/share/umake/ide/clion"}
     args:
         creates: "{{ item.path }}"
-    become_user: vagrant
+    register: task_ides_var
+    until: task_ides_var is not failed
+    retries: 5

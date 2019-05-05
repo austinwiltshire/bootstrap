@@ -4,7 +4,7 @@
     git:
         repo: 'https://github.com/universal-ctags/ctags.git'
         depth: 1
-        dest: /tmp/ctags
+        dest: "{{ ansible_facts['user_dir'] }}/.local/tmp/ctags"
         version: master
 -
     name: install CTAGS dependencies
@@ -14,14 +14,14 @@
     with_items:
         - autoconf
         - pkg-config
-    become: true
+    become: yes
 -
     name: build and install universal ctags
     command: "{{ item }}"
     with_items:
         - ./autogen.sh
-        - ./configure
+        - "./configure --prefix={{ ansible_facts['user_dir'] }}/.local"
         - make install
     args:
-        chdir: /tmp/ctags
-        creates: /usr/local/bin/ctags
+        chdir: ~/.local/tmp/ctags
+        creates: "{{ ansible_facts['user_dir'] }}/.local/bin/ctags"

@@ -1,11 +1,35 @@
 ---
+-   
+    name: install Python Requirements
+    apt:
+        name: "{{ item }}"
+        state: present
+    become: true
+    with_items:
+        - zlib1g-dev
+        - libssl-dev
+        - libreadline6-dev
+        - libbz2-dev
+        - libsqlite3-dev
+        - build-essential
+        - python3-dev
+        - libffi-dev
 -
     name: pyenv install 2.7.16
     pyenv:
       version: 2.7.16
-      pyenv_root: "~/.pyenv"
+      pyenv_root: "{{ ansible_facts['user_dir'] }}/.pyenv"
+-
+    name: pyenv install 3.7.3 
+    pyenv:
+      version: 3.7.3
+      pyenv_root: "{{ ansible_facts['user_dir'] }}/.pyenv"
+    environment:
+      PYTHON_CONFIGURE_OPTS: "--enable-shared" # you complete me needs python 3, and needs it shared
+
 -
     name: install virtualenv
     pip:
       name: virtualenv
       executable: "{{pyenv_root}}/versions/2.7.16/bin/pip"
+      extra_args: --user

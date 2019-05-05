@@ -1,42 +1,19 @@
 ---
 -
-    name: Prereqs for getting the docker apt repo
-    apt:
-        name: "{{ item }}"
-        state: present
-    with_items:
-        - apt-transport-https
-        - ca-certificates
--
-    name: get apt-keys for docker apt stuff
-    apt_key:
-        keyserver: hkp://ha.pool.sks-keyservers.net:80
-        id: 58118E89F3A912897C070ADBF76221572C52609D
--
-    # this has to line up with the version of ubuntu we're on - 14.04 is trusty
-    name: install repo for docker
-    apt_repository:
-        repo: deb https://apt.dockerproject.org/repo ubuntu-trusty main
-        state: present
--
     name: Install docker
     apt:
-        name: "{{ item }}"
+        name: docker.io
         state: present
-    with_items:  # 3.31.0.92-generic is result of running uname -r on the image
-        - linux-image-extra-3.13.0-92-generic
-        - linux-image-extra-virtual
-        - docker-engine
+    become: yes
 -
-    name: start the docker service
+    name: start docker
+    service:
+        name: docker
+        state: started
+    become: yes
+-
+    name: enable docker
     service:
         name: docker
         enabled: yes
-        state: started
--
-    name: install docker compose
-    get_url:
-        url: "https://github.com/docker/compose/releases/download/\
-              1.9.0/docker-compose-Linux-x86_64"
-        dest: /usr/local/bin/docker-compose
-        mode: a+x
+    become: yes

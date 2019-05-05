@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "bento/ubuntu-14.04"
+  config.vm.box = "bento/ubuntu-18.04"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -55,15 +55,15 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  config.vm.provider "virtualbox" do |vb|
+  config.vm.provider "hyperv" do |vb|
     # Display the VirtualBox GUI when booting the machine
-    vb.gui = true
+    #vb.gui = true
   
     # Customize the amount of memory on the VM:
-        vb.memory = "24000" #use this amount when developing on this box
-        vb.cpus = "6" #same here
-    #vb.memory = "4096" #use this amount when just doing lightweight stuff
-    #vb.cpus = "1" #same here
+        #vb.memory = "24000" #use this amount when developing on this box
+        #vb.cpus = "6" #same here
+    vb.memory = "4096" #use this amount when just doing lightweight stuff
+    vb.cpus = "1" #same here
   end
   #
   # View the documentation for the provider you are using for more
@@ -82,7 +82,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :ansible_local do |ansible|
     ansible.playbook = "playbook.yml"
-    ansible.become = true
+    ansible.galaxy_role_file = "requirements.yml"
+#    ansible.become = true
 #    ansible.verbose = true
   end
 

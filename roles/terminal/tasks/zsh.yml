@@ -4,16 +4,16 @@
     apt:
         name: zsh
         state: present
--
-    name: set zsh as default shell to vagrant
-    user:
-        name: vagrant
-        shell: /bin/zsh
--
-    name: install oh-my-zsh
-    git:
-        repo: 'https://github.com/robbyrussell/oh-my-zsh.git'
-        depth: 1
-        dest: ~/.oh-my-zsh
-        version: master
-    become_user: "vagrant"
+    become: yes
+- 
+    name: install oh my zsh
+    include_role: 
+      name: gantsign.oh-my-zsh
+    vars:
+      users:
+        - username: "{{ ansible_facts['user_id'] }}"
+    #TODO: this may need to be moved up as its used by a lot of things
+    #    name: Creates tmp directory
+    #file:
+    #    path: "{{ ansible_facts['user_dir'] }}/.local/tmp"
+    #    state: directory

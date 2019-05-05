@@ -15,21 +15,24 @@
         - build-essential
         - pkg-config
         - xsltproc
-        - cmake3
+        - cmake
           # - asciidoc # not needed, installs a gig of dependencies for docs
+    become: yes
 -
     name: clone lastpass itself
     git:
         repo: 'https://github.com/lastpass/lastpass-cli'
         depth: 1
-        dest: /tmp/lastpass-cli
+        dest: "{{ ansible_facts['user_dir'] }}/.local/tmp/lastpass-cli"
         version: master
 -
     name: build and install lastpass
     command: "{{ item }}"
+    environment:
+      PREFIX: "{{ ansible_facts['user_dir'] }}/.local/tmp/lastpass-cli"
     args:
-        chdir: /tmp/lastpass-cli
-        creates: /usr/bin/lpass
+        chdir: "{{ ansible_facts['user_dir'] }}/.local/tmp/lastpass-cli"
+        creates: "{{ ansible_facts['user_dir'] }}/.local/bin/lpass"
     with_items:
         - make
         - make install

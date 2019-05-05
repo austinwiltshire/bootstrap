@@ -1,26 +1,13 @@
 ---
 -
-    name: add gcc repo
-    apt_repository:
-        repo: ppa:ubuntu-toolchain-r/test
-        state: present
--
-    name: install GCC/G++ 6
+    name: install GCC/G++
     apt:
         name: "{{ item }}"
         state: present
     become: true
     with_items:
-        - gcc-6
-        - g++-6
+        - gcc
+        - g++
         - ccache
         - cppcheck
--
-    name: update alternatives for gcc
-    alternatives:
-        link: "{{ item.link }}"
-        name: "{{ item.name }}"
-        path: "{{ item.path }}"
-    with_items:
-        - {link: "/usr/bin/gcc", name: "gcc", path: "/usr/bin/gcc-6"}
-        - {link: "/usr/bin/g++", name: "g++", path: "/usr/bin/g++-6"}
+        - cmake

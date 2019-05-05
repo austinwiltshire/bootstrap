@@ -5,35 +5,31 @@
     name: Grab vundle for vim
     git:
         repo: https://github.com/VundleVim/Vundle.vim.git
-        dest: ~/.vim/bundle/Vundle.vim
+        dest: "{{ ansible_facts['user_dir'] }}/.vim/bundle/Vundle.vim"
         version: master
-    become_user: "vagrant"
 -
     name: Pull in all vim plugins
     command: vim +PluginInstall +qall
     args:
-        creates: ~/.vim/bundle/ack.vim
-    become_user: "vagrant"
+        creates: "{{ ansible_facts['user_dir'] }}/.vim/bundle/ack.vim"
 -
     name: Install cmake (needed by youcompleteme) and last pass
-    # (cmake3 for old ubuntus. switch to just cmake for new ubuntus)
     apt:
-        name: cmake3
+        name: cmake
         state: present
+    become: yes
 -
     name: Install youcomplete me with clang completion
-    command: python3.4 ./install.py --clang-completer
+    command: "{{ ansible_facts['user_dir'] }}/.pyenv/versions/3.7.3/bin/python ./install.py --clang-completer"
     args:
-        chdir: ~/.vim/bundle/YouCompleteMe
-        creates: ~/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so
-    become_user: "vagrant"
+        chdir: "{{ ansible_facts['user_dir'] }}/.vim/bundle/YouCompleteMe"
+        creates: "{{ ansible_facts['user_dir'] }}/.vim/bundle/YouCompleteMe/third_party/ycmd/ycm_core.so"
 -
     name: make undo, backup and swap directories for vim
     file:
         path: "{{ item }}"
         state: directory
     with_items:
-        - "~/.vim/undo"
-        - "~/.vim/backup"
-        - "~/.vim/swap"
-    become_user: "vagrant"
+        - "{{ ansible_facts['user_dir'] }}/.vim/undo"
+        - "{{ ansible_facts['user_dir'] }}/.vim/backup"
+        - "{{ ansible_facts['user_dir'] }}/.vim/swap"
