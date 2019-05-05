@@ -15,9 +15,6 @@
            path: "{{ ansible_facts['user_dir'] }}/.local/share/umake/ide/clion"}
     args:
         creates: "{{ item.path }}"
-        # become: yes # this hsouldn't require become, but umake doesn't like to run without it. weird.
     register: task_ides_var
     until: task_ides_var is not failed
     retries: 5
-
-    #we have to use the fully qualified path above because we're sudo when we run this.

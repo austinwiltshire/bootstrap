@@ -7,13 +7,9 @@
     - suzuki-shunsuke.pyenv-virtualenv # allows use of virtual env in playbooks
     - terminal
     - gui
-      #  tasks:
-    #    -  debug: var=ansible_facts
-    #       become: yes
-    #        -
-        #            name: install remaining python deps
-        #    pip:
-        #        name: "{{ item }}"
-        #    with_items:
-        #        - ansible-lint
-        #        - yamllint
+ #            name: install remaining python deps
+ #    pip:
+ #        name: "{{ item }}"
+ #    with_items:
+ #        - ansible-lint
+ #        - yamllint

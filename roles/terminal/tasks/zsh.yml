@@ -5,12 +5,6 @@
         name: zsh
         state: present
     become: yes
-    #-
-    #name: set zsh as default shell to user
-    #user:
-    #    name: austinwiltshire
-    #    shell: /bin/zsh
-    #become: yes/
 - 
     name: install oh my zsh
     include_role: 
@@ -23,19 +17,3 @@
     #file:
     #    path: "{{ ansible_facts['user_dir'] }}/.local/tmp"
     #    state: directory
--   
-  #name: Download zsh installer
-  #  get_url: url=https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh dest={{ ansible_facts['user_dir'] }}/.local/tmp/zsh-installer.sh
-  #-   
-  #  name: Execute the zsh-installer.sh
-  #  command: "sh {{ ansible_facts['user_dir'] }}/.local/tmp/zsh-installer.sh && echo {{ ansible_facts['user_dir'] }}"
-  #  args:
-  #      creates: "{{ ansible_facts['user_dir'] }}/.oh-my-zsh/README.md"
-  #  become: yes
-#-
-#    name: install oh-my-zsh
-#    git:
-#        repo: 'https://github.com/robbyrussell/oh-my-zsh.git'
-#        depth: 1
-#        dest: ~/.oh-my-zsh
-#        version: master
