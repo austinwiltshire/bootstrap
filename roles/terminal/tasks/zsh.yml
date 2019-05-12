@@ -17,3 +17,24 @@
     #file:
     #    path: "{{ ansible_facts['user_dir'] }}/.local/tmp"
     #    state: directory
+-
+    name: clone fzf
+    git:
+        repo: 'https://github.com/junegunn/fzf.git'
+        depth: 1
+        dest: "{{ ansible_facts['user_dir'] }}/.fzf"
+-
+    name: install fzf
+    command: "{{ ansible_facts['user_dir'] }}/.fzf/install"
+-
+#TODO: needs to have permissions changed compaudit | xargs chmod g-w,o-w
+    name: clone autosuggestions plugin
+    git:
+        repo: 'https://github.com/zsh-users/zsh-autosuggestions'
+        dest: '{{ ansible_facts['user_dir'] }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+-
+#TODO: needs to have permissions changed compaudit | xargs chmod g-w,o-w
+    name: clone syntax highlighting plugin
+    git:
+        repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+        dest: '{{ ansible_facts['user_dir'] }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
