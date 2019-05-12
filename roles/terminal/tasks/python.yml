@@ -27,6 +27,8 @@
     pyenv:
       version: 2.7.16
       pyenv_root: "{{ ansible_facts['user_dir'] }}/.pyenv"
+    environment:
+      PYTHON_CONFIGURE_OPTS: "--enable-shared" # various libs need the shared object to work, like theano
 -
     name: pyenv install 3.7.3 
     pyenv:

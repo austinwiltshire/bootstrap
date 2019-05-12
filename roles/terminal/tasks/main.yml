@@ -14,5 +14,6 @@
          - powerline.yml
          - lastpass-cli.yml
          - other.yml
+         - fzf.yml
   loop_control:
       loop_var: task_item
