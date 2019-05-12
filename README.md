@@ -14,7 +14,13 @@ ansible-playbook -K --connection=local --inventory 127.0.0.1, playbook.yml
 
 # Cheat Sheets
 
-## fzf and zsh 
+## zsh
+
+### history subsearch
+
+Just press up or down after you've typed a partial command to try and match your command to history
+
+### fzf and zsh 
 
 To use fzf in zsh, append your command line with two ** then press tab. Example:
 
