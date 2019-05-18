@@ -27,3 +27,13 @@ To use fzf in zsh, append your command line with two ** then press tab. Example:
 vi bootstrap/pyt**
 
 Should show the python.yml under /roles/terminal/tasks subdirectory in the bootstrap repo.
+
+### Pycharm
+
+Idea VIM commands can be found here: http://ideavim.sourceforge.net/vim/
+
+I have ,, hooked up to acejump, similar to easy motion.
+
+I have ctrl-p hooked up to Find Anywhere
+
+Sync your settings with your user's settings to get all plugins and keymappings.
