@@ -18,3 +18,9 @@
     register: task_ides_var
     until: task_ides_var is not failed
     retries: 5
+-
+    name: install plantuml # used for pycharm's plantuml plugin
+    apt:
+        name: plantuml
+        state: present
+    become: yes
