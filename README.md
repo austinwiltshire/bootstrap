@@ -12,6 +12,17 @@ sudo apt-get install ansible --yes &&
 ansible-galaxy install -r requirements.yml &&
 ansible-playbook -K --connection=local --inventory 127.0.0.1, playbook.yml
 
+For ubuntu 16.04 on vagrant
+
+git clone https://github.com/austinwiltshire/bootstrap.git &&
+cd bootstrap &&
+sudo apt update &&
+sudo apt install software-properties-common --yes &&
+sudo apt-add-repository --yes --update ppa:ansible/ansible &&
+sudo apt install ansible --yes &&
+ansible-galaxy install -r requirements.yml &&
+ansible-playbook -K --connection=local --inventory 127.0.0.1, playbook.yml
+
 # Cheat Sheets
 
 ## zsh
