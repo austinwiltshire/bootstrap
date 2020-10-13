@@ -1,8 +1,32 @@
 ---
 -
-    name: Install docker
+    name: Install apt-transport-https
     apt:
-        name: docker.io
+        name: apt-transport-https
+        state: present
+    become: yes
+-
+    name: Install certificates
+    apt:
+        name: ca-certificates
+        state: present
+    become: yes
+-
+    name: Install docker-ce
+    apt:
+        name: docker-ce
+        state: present
+    become: yes
+-
+    name: Install docker-ce cli
+    apt:
+        name: docker-ce-cli
+        state: present
+    become: yes
+-
+    name: Install container.io
+    apt:
+        name: containerd.io
         state: present
     become: yes
 -
