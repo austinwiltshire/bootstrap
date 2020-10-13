@@ -2,20 +2,8 @@
 -
     name: install pre-reqs for lastpass cli
     apt:
-        name: "{{ item }}"
+        name: ["openssl", "libcurl4-openssl-dev", "libxml2", "libxml2-dev", "libssl-dev", "pinentry-curses", "xclip", "build-essential", "pkg-config", "xsltproc", "cmake"]
         state: present
-    with_items:
-        - openssl
-        - libcurl4-openssl-dev
-        - libxml2
-        - libxml2-dev
-        - libssl-dev
-        - pinentry-curses
-        - xclip
-        - build-essential
-        - pkg-config
-        - xsltproc
-        - cmake
           # - asciidoc # not needed, installs a gig of dependencies for docs
     become: yes
 -

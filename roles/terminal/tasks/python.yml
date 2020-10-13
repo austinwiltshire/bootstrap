@@ -2,26 +2,10 @@
 -   
     name: install Python Requirements
     apt:
-        name: "{{ item }}"
+        name: ["make", "build-essential", "libssl-dev", "zlib1g-dev", "libbz2-dev", "libreadline6-dev", "libsqlite3-dev", "wget", "curl", "llvm", "libncurses5-dev", "libncursesw5-dev", "xz-utils", "tk-dev", "python3-dev", "libffi-dev"]
         state: present
     become: true
-    with_items: # list updated from: https://github.com/suzuki-shunsuke/ansible-pyenv/blob/master/defaults/main.yml
-        - make
-        - build-essential
-        - libssl-dev
-        - zlib1g-dev
-        - libbz2-dev
-        - libreadline6-dev
-        - libsqlite3-dev
-        - wget
-        - curl
-        - llvm
-        - libncurses5-dev
-        - libncursesw5-dev
-        - xz-utils
-        - tk-dev
-        - python3-dev
-        - libffi-dev
+    # list updated from: https://github.com/suzuki-shunsuke/ansible-pyenv/blob/master/defaults/main.yml
 -
     name: pyenv install 2.7.16
     pyenv:

@@ -2,10 +2,7 @@
 -
     name: install gnome
     apt:
-        name: "{{ item }}"
+        name: ["gnome-shell", "ubuntu-gnome-desktop"]
         state: present
         update_cache: yes
-    with_items:
-        - gnome-shell
-        - ubuntu-gnome-desktop
     become: yes

@@ -2,12 +2,6 @@
 -
     name: install GCC/G++
     apt:
-        name: "{{ item }}"
+        name: ["gcc", "g++", "ccache", "cppcheck", "cmake"]
         state: present
     become: true
-    with_items:
-        - gcc
-        - g++
-        - ccache
-        - cppcheck
-        - cmake

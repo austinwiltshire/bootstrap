@@ -9,11 +9,8 @@
 -
     name: install CTAGS dependencies
     apt:
-        name: "{{ item }}"
+        name: ["autoconf", "pkg-config"]
         state: present
-    with_items:
-        - autoconf
-        - pkg-config
     become: yes
 -
     name: build and install universal ctags
