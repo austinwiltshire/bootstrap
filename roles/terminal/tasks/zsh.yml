@@ -31,10 +31,10 @@
     name: clone autosuggestions plugin
     git:
         repo: 'https://github.com/zsh-users/zsh-autosuggestions'
-        dest: '{{ ansible_facts['user_dir'] }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+        dest: "{{ ansible_facts['user_dir'] }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 -
 #TODO: needs to have permissions changed compaudit | xargs chmod g-w,o-w
     name: clone syntax highlighting plugin
     git:
         repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
-        dest: '{{ ansible_facts['user_dir'] }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+        dest: "{{ ansible_facts['user_dir'] }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
