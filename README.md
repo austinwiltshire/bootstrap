@@ -23,6 +23,14 @@ sudo apt install ansible --yes &&
 ansible-galaxy install -r requirements.yml &&
 ansible-playbook -K --connection=local --inventory 127.0.0.1, playbook.yml
 
+If you need to make changes, remember to reset the remote to the ssh version after downloading keys using the enclosed get_keys.sh script.
+
+git remote set-url git@github.com:austinwiltshire/bootstrap.git
+
+You may also need to back out some changes set up by ansible in zsh, so
+
+yadm checkout -- ~/.zshrc
+
 # Cheat Sheets
 
 ## zsh
