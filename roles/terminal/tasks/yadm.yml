@@ -9,7 +9,7 @@
     name: Clone YADM from https, but convert to ssh after
     command: "{{ ansible_facts['user_dir'] }}/.local/bin/yadm {{ item }}"
     args:
-        creates: "{{ ansible_facts['user_dir'] }}/.yadm/repo.git/config"
+        creates: "{{ ansible_facts['user_dir'] }}/.config/yadm/repo.git/config"
     with_items:
         - "clone https://github.com/austinwiltshire/yadm.git"
         - "remote set-url origin git@github.com:austinwiltshire/yadm.git"
