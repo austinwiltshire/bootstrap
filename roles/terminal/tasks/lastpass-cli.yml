@@ -23,5 +23,5 @@
         creates: "{{ ansible_facts['user_dir'] }}/.local/bin/lpass"
     with_items:
         - make
-        - make install
+        - make install PREFIX=~/.local
         # - make install-doc # to install a gig of documentation
