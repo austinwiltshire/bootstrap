@@ -1,4 +1,10 @@
 ---
+-   
+    name: add latest ubuntu-make repo. Needed for ubuntu 16.04, shouldn't hurt others.
+    apt_repository:
+        repo: "ppa:ubuntu-desktop/ubuntu-make"
+        state: present
+    become: yes
 -
     name: install ubuntu-make
     apt:
