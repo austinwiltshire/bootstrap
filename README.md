@@ -20,7 +20,7 @@ sudo apt update &&
 sudo apt install software-properties-common --yes &&
 pip install ansible &&
 ansible-galaxy install -r requirements.yml &&
-ansible-playbook -K --connection=local --inventory 127.0.0.1, playbook.yml --extra-vars "ansible_become_pass=vagrant"
+ansible-playbook --connection=local --inventory 127.0.0.1, playbook.yml --extra-vars "ansible_become_pass=vagrant"
 
 If you need to make changes, remember to reset the remote to the ssh version after downloading keys using the enclosed get_keys.sh script.
 
